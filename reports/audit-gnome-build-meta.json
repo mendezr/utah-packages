@@ -1,0 +1,957 @@
+{
+  "schema": 1,
+  "generated_for": {
+    "release_tag": "51.0",
+    "release_commit": "a50b8c9de35f51c6a646c8178cde3c2c176725b6",
+    "factory_base": "af53b1edba9f653fd3255cfdeca85111c85e5ed8"
+  },
+  "unmapped_factory_sources": [
+    {
+      "name": "adw-gtk3-theme",
+      "reason": "Third-party libadwaita-for-GTK3 theme; not a GNOME core/sdk component tracked by gnome-build-meta (issue #201 initial scope)."
+    }
+  ],
+  "packages": [
+    {
+      "rpm_name": "mutter",
+      "gbm_element": "core/mutter.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "mutter",
+        "version": "51.beta",
+        "filename": "mutter-51.beta.tar.xz",
+        "patches": [],
+        "features": {},
+        "source_urls": [
+          "http://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-shell",
+      "gbm_element": "core/gnome-shell.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-shell",
+        "version": "51.beta",
+        "filename": "gnome-shell-51.beta.tar.xz",
+        "patches": [
+          "gnome-shell-favourite-apps-firefox.patch"
+        ],
+        "features": {
+          "portal_helper": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-control-center",
+      "gbm_element": "core/gnome-control-center.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-control-center",
+        "version": "51.beta",
+        "filename": "gnome-control-center-51.beta.tar.xz",
+        "patches": [],
+        "features": {
+          "documentation": "true",
+          "location-services": "enabled",
+          "distributor_logo": "%{_datadir}/pixmaps/fedora_logo_med.png",
+          "dark_mode_distributor_logo": "%{_datadir}/pixmaps/fedora_whitelogo_med.png",
+          "malcontent": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-session",
+      "gbm_element": "core/gnome-session.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-session",
+        "version": "51.beta",
+        "filename": "gnome-session-51.beta.tar.xz",
+        "patches": [
+          "0001-Fedora-Set-grub-boot-flags-on-shutdown-reboot.patch"
+        ],
+        "features": {},
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-settings-daemon",
+      "gbm_element": "core/gnome-settings-daemon.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-settings-daemon",
+        "version": "51.beta",
+        "filename": "gnome-settings-daemon-51.beta.tar.xz",
+        "patches": [],
+        "features": {},
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz",
+          "org.gnome.settings-daemon.plugins.housekeeping.gschema.override",
+          "org.gnome.settings-daemon.plugins.power.gschema.override"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-desktop3",
+      "gbm_element": "core/gnome-desktop.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-desktop3",
+        "version": "51.alpha",
+        "filename": "gnome-desktop-51.alpha.tar.xz",
+        "patches": [],
+        "features": {
+          "gtk_doc": "true",
+          "installed_tests": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/gnome-desktop/%{gnome_major_version}/gnome-desktop-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-bluetooth",
+      "gbm_element": "core/gnome-bluetooth.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-bluetooth",
+        "version": "47.2",
+        "filename": "gnome-bluetooth-47.2.tar.xz",
+        "patches": [],
+        "features": {
+          "gtk_doc": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "nautilus",
+      "gbm_element": "core/nautilus.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "nautilus",
+        "version": "51~beta",
+        "filename": "nautilus-51.beta.tar.xz",
+        "patches": [
+          "default-terminal.patch"
+        ],
+        "features": {
+          "docs": "true",
+          "extensions": "true",
+          "introspection": "true",
+          "selinux": "true",
+          "cloudproviders": "%{?with_cloudproviders:true}%{?!with_cloudproviders:false}"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gjs",
+      "gbm_element": "sdk/gjs.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gjs",
+        "version": "1.89.2",
+        "filename": "gjs-1.89.2.tar.xz",
+        "patches": [],
+        "features": {},
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gtk3",
+      "gbm_element": "sdk/gtk+-3.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gtk3",
+        "version": "3.24.52",
+        "filename": "gtk-3.24.52.tar.xz",
+        "patches": [
+          "9852_export_xdg_toplevel.patch",
+          "9956_pointer_focus.patch"
+        ],
+        "features": {
+          "broadway_backend": "true",
+          "builtin_immodules": "wayland,waylandgtk",
+          "colord": "yes",
+          "cloudproviders": "true",
+          "gtk_doc": "true",
+          "installed_tests": "true",
+          "man": "true",
+          "profiler": "true",
+          "tracker3": "true",
+          "xinerama": "yes"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/gtk/%{gnome_major_minor_version}/gtk-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gtk4",
+      "gbm_element": "sdk/gtk.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gtk4",
+        "version": "4.23.3",
+        "filename": "gtk-4.23.3.tar.xz",
+        "patches": [],
+        "features": {
+          "G_DISABLE_CAST_CHECKS": "",
+          "G_DISABLE_ASSERT": "",
+          "broadway-backend": "true",
+          "sysprof": "enabled",
+          "tracker": "enabled",
+          "colord": "enabled",
+          "documentation": "true",
+          "man-pages": "true",
+          "build-testsuite": "false",
+          "build-tests": "false",
+          "build-examples": "false"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/gtk/%{gnome_major_minor_version}/gtk-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "libadwaita",
+      "gbm_element": "sdk/libadwaita.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "libadwaita",
+        "version": "1.10.beta.1",
+        "filename": "libadwaita-1.10.beta.1.tar.xz",
+        "patches": [
+          "fix-sassc-requirement-for-tarball-builds.patch"
+        ],
+        "features": {
+          "documentation": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gdk-pixbuf2",
+      "gbm_element": "sdk/gdk-pixbuf.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gdk-pixbuf2",
+        "version": "2.44.8",
+        "filename": "gdk-pixbuf-2.44.8.tar.xz",
+        "patches": [
+          "CVE-2026-16768.patch"
+        ],
+        "features": {
+          "documentation": "true",
+          "introspection": "enabled",
+          "glycin": "enabled",
+          "legacy_xpm": "enabled"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/gdk-pixbuf/%{gnome_major_minor_version}/gdk-pixbuf-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "pango",
+      "gbm_element": "sdk/pango.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "pango",
+        "version": "1.58.2",
+        "filename": "pango-1.58.2.tar.xz",
+        "patches": [],
+        "features": {
+          "build-testsuite": "true",
+          "build-examples": "true",
+          "documentation": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "cairo",
+      "gbm_element": "sdk/cairo.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "cairo",
+        "version": "1.18.4",
+        "filename": "cairo-1.18.4.tar.xz",
+        "patches": [
+          "cairo-multilib.patch"
+        ],
+        "features": {
+          "freetype": "enabled",
+          "fontconfig": "enabled",
+          "glib": "enabled",
+          "gtk_doc": "true",
+          "spectre": "disabled",
+          "symbol-lookup": "disabled",
+          "tee": "enabled",
+          "tests": "disabled",
+          "xcb": "enabled",
+          "xlib": "enabled"
+        },
+        "source_urls": [
+          "https://cairographics.org/releases/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "librsvg2",
+      "gbm_element": "sdk/librsvg.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "librsvg2",
+        "version": "2.62.3",
+        "filename": "librsvg-2.62.3.tar.xz",
+        "patches": [
+          "0001-Fedora-Drop-dependencies-required-for-benchmarking.patch",
+          "0002-Fedora-Drop-dependencies-and-references-to-mutation-.patch",
+          "0003-Fedora-Drop-windows-specific-dependencies.patch"
+        ],
+        "features": {
+          "FS-2016": "",
+          "rop-dependencies-required-for-benchmarking.patch": "",
+          "rop-dependencies-and-references-to-mutation-.patch": "",
+          "rop-windows-specific-dependencies.patch": "",
+          "avif": "disabled}"
+        },
+        "source_urls": [
+          "LGPL-2.1-or-later",
+          "https://download.gnome.org/sources/librsvg/%{gnome_major_minor_version}/librsvg-%{version}.tar.xz",
+          "librsvg-%{version}-vendor.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gsettings-desktop-schemas",
+      "gbm_element": "sdk/gsettings-desktop-schemas.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gsettings-desktop-schemas",
+        "version": "51.beta",
+        "filename": "gsettings-desktop-schemas-51.beta.tar.xz",
+        "patches": [],
+        "features": {},
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz",
+          "org.gnome.desktop.interface.rhel.gschema.override"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "glib-networking",
+      "gbm_element": "sdk/glib-networking.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "glib-networking",
+        "version": "2.90~alpha",
+        "filename": "glib-networking-2.90.alpha.tar.xz",
+        "patches": [],
+        "features": {
+          "libproxy": "disabled",
+          "environment_proxy": "enabled",
+          "installed_tests": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/glib-networking/%{gnome_major_minor_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gvfs",
+      "gbm_element": "sdk-deps/gvfs.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gvfs",
+        "version": "1.61.91",
+        "filename": "gvfs-1.61.91.tar.xz",
+        "patches": [],
+        "features": {
+          "man": "true",
+          "afc": "false",
+          "gphoto2": "false",
+          "libusb": "false",
+          "mtp": "false",
+          "bluray": "false",
+          "nfs": "false",
+          "onedrive": "false",
+          "gcrypt": "false",
+          "cdda": "false"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gvfs-client",
+      "gbm_element": "sdk/gvfs-client.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gvfs",
+        "version": "1.61.91",
+        "filename": "gvfs-1.61.91.tar.xz",
+        "patches": [],
+        "features": {
+          "man": "true",
+          "afc": "false",
+          "gphoto2": "false",
+          "libusb": "false",
+          "mtp": "false",
+          "bluray": "false",
+          "nfs": "false",
+          "onedrive": "false",
+          "gcrypt": "false",
+          "cdda": "false"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gvfs-daemon",
+      "gbm_element": "core/gvfs-daemon.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gvfs",
+        "version": "1.61.91",
+        "filename": "gvfs-1.61.91.tar.xz",
+        "patches": [],
+        "features": {
+          "man": "true",
+          "afc": "false",
+          "gphoto2": "false",
+          "libusb": "false",
+          "mtp": "false",
+          "bluray": "false",
+          "nfs": "false",
+          "onedrive": "false",
+          "gcrypt": "false",
+          "cdda": "false"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "gnome-online-accounts",
+      "gbm_element": "core-deps/gnome-online-accounts.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "gnome-online-accounts",
+        "version": "3.58.1",
+        "filename": "gnome-online-accounts-3.58.1.tar.xz",
+        "patches": [],
+        "features": {
+          "goabackend": "false",
+          "documentation": "false",
+          "man": "false",
+          "fedora": "true"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "evolution-data-server",
+      "gbm_element": "core-deps/evolution-data-server.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "evolution-data-server",
+        "version": "3.61.3",
+        "filename": "evolution-data-server-3.61.3.tar.xz",
+        "patches": [
+          "Make-DBUS_SERVICES_PREFIX-runtime-configurable.patch"
+        ],
+        "features": {
+          "BUS_SERVICES_PREFIX-runtime-configurable.patch": "",
+          "WITH_OPENLDAP": "ON",
+          "WITH_STATIC_LDAP": "ON",
+          "WITH_KRB5": "ON",
+          "ENABLE_LARGEFILE": "ON",
+          "WITH_PHONENUMBER": "ON",
+          "ENABLE_SMIME": "ON",
+          "ENABLE_GTK_DOC": "ON",
+          "ENABLE_OAUTH2_WEBKITGTK": "ON",
+          "ENABLE_OAUTH2_WEBKITGTK4": "ON",
+          "LDAP_DEPRECATED": "",
+          "ENABLE_MAINTAINER_MODE": "OFF",
+          "ENABLE_FILE_LOCKING": "fcntl",
+          "ENABLE_DOT_LOCKING": "OFF",
+          "ENABLE_INTROSPECTION": "ON",
+          "ENABLE_VALA_BINDINGS": "ON",
+          "ENABLE_INSTALLED_TESTS": "ON",
+          "WITH_LIBDB": "OFF",
+          "WITH_SYSTEMDUSERUNITDIR": "%{_userunitdir}",
+          "INCLUDE_INSTALL_DIR:PATH": "%{_includedir}",
+          "LIB_INSTALL_DIR:PATH": "%{_libdir}",
+          "SYSCONF_INSTALL_DIR:PATH": "%{_sysconfdir}",
+          "SHARE_INSTALL_PREFIX:PATH": "%{_datadir}",
+          "LIB_SUFFIX": "64"
+        },
+        "source_urls": [
+          "http://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "localsearch",
+      "gbm_element": "core-deps/localsearch.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "localsearch",
+        "version": "3.12~beta",
+        "filename": "localsearch-3.12.beta.tar.xz",
+        "patches": [],
+        "features": {
+          "writeback": "false",
+          "systemd_user_services": "false",
+          "iso": "disabled",
+          "battery_detection": "none",
+          "domain_prefix": "%{domain_ontology}",
+          "cue": "disabled",
+          "libav": "disabled",
+          "libmediainfo": "disabled",
+          "systemd_user_services_dir": "%{_userunitdir}",
+          "playlist": "disabled"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "tinysparql",
+      "gbm_element": "core-deps/localsearch.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "localsearch",
+        "version": "3.12~beta",
+        "filename": "localsearch-3.12.beta.tar.xz",
+        "patches": [],
+        "features": {
+          "writeback": "false",
+          "systemd_user_services": "false",
+          "iso": "disabled",
+          "battery_detection": "none",
+          "domain_prefix": "%{domain_ontology}",
+          "cue": "disabled",
+          "libav": "disabled",
+          "libmediainfo": "disabled",
+          "systemd_user_services_dir": "%{_userunitdir}",
+          "playlist": "disabled"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    },
+    {
+      "rpm_name": "xdg-desktop-portal-gnome",
+      "gbm_element": "core-deps/xdg-desktop-portal-gnome.bst",
+      "gbm_present": false,
+      "classification": "unmapped",
+      "reason": "no gnome-build-meta element in the pinned tree",
+      "factory": {
+        "name": "xdg-desktop-portal-gnome",
+        "version": "51.alpha",
+        "filename": "xdg-desktop-portal-gnome-51.alpha.tar.xz",
+        "patches": [],
+        "features": {
+          "systemduserunitdir": "%{_userunitdir}"
+        },
+        "source_urls": [
+          "https://download.gnome.org/sources/%{name}/%{gnome_major_version}/%{name}-%{gnome_tarball_version}.tar.xz"
+        ]
+      },
+      "gnome_build_meta": {
+        "kind": null,
+        "primary_source": null,
+        "secondary_sources": [],
+        "patches": [],
+        "features": {},
+        "build_depends": [],
+        "runtime_depends": [],
+        "depends": [],
+        "includes": [],
+        "extensions": []
+      }
+    }
+  ]
+}
