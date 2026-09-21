@@ -156,10 +156,24 @@ class Loader:
         return self._node(node, path)
 
     def _merge(self, base: dict, over: dict) -> dict:
-        """Shallow/deep merge; ``(>)`` keys in ``over`` win (BuildStream override)."""
+        """Deep merge; ``(>)`` keys in ``over`` win (BuildStream override)."""
         out = dict(base)
         for key, value in over.items():
-            if key == "(>)" or key.startswith("(>"):
+            if key.startswith("(>)"):
+                real_key = key[3:].lstrip()
+                if not real_key:
+                    # Bare ``(>)`` is a list-append operator with no key; treat
+                    # its value as an extension of the list it modifies elsewhere.
+                    # Without a key it cannot be merged here, so record that it
+                    # was seen and continue — the per-element ``extensions`` set
+                    # already captures it.
+                    continue
+                if isinstance(value, list) and isinstance(out.get(real_key), list):
+                    out[real_key] = out[real_key] + value
+                elif isinstance(value, dict) and isinstance(out.get(real_key), dict):
+                    out[real_key] = self._merge(out[real_key], value)
+                else:
+                    out[real_key] = value
                 continue
             if isinstance(value, dict) and isinstance(out.get(key), dict):
                 out[key] = self._merge(out[key], value)
@@ -456,6 +470,7 @@ def build_report(pin: dict, loader: Loader, aliases: dict,
     alias = pin.get("factory_alias", {}) or {}
     entries = []
     for rpm, elem_path in mapping.items():
+        seen_before = set(loader.seen)
         # Subpackages (gvfs-client, gvfs-daemon) and rename aliases (tinysparql)
         # resolve to a real factory source registry name.
         factory_name = alias.get(rpm, rpm)
@@ -469,6 +484,10 @@ def build_report(pin: dict, loader: Loader, aliases: dict,
         if (loader.root / elem_path_full).exists():
             try:
                 gbm = resolve_element(loader, aliases, elem_path_full)
+                # Fix cross-element contamination: Loader.seen accumulates across
+                # elements when one Loader is reused. Keep per-element includes.
+                if gbm is not None:
+                    gbm.includes = sorted(set(gbm.includes) - seen_before)
             except Exception as exc:  # noqa: BLE001 - report, never abort the audit
                 notes.append(f"gbm element failed to parse: {exc}")
         else:
@@ -591,9 +610,11 @@ def _verify_checkout(loader: Loader, commit: str) -> None:
             capture_output=True, text=True, check=True,
         )
     except subprocess.CalledProcessError:
-        # Not a git checkout; treat as an exported snapshot and rely on the
-        # pin file for provenance.
-        return None
+        raise SystemExit(
+            f"gnome-build-meta checkout at {loader.root} is not a git repository. "
+            f"Pass --no-verify to audit an exported snapshot, or clone the pinned commit "
+            f"{commit}."
+        )
     head = proc.stdout.strip()
     if head != commit and not head.startswith(commit[:12]):
         raise SystemExit(
@@ -692,7 +713,18 @@ def main(argv=None) -> int:
     if not args.packages_dir.exists():
         print(f"warning: packages dir not found: {args.packages_dir}", file=sys.stderr)
 
+    # Fail-closed: a missing elements root or zero resolved elements means the
+    # checkout is unusable — do not write a plausible-looking all-unmapped report.
+    elements_root = loader.root / pin["element_path"]["root"]
+    if not elements_root.is_dir():
+        print(f"error: gnome-build-meta elements root not found: {elements_root}", file=sys.stderr)
+        return 2
+
     report = build_report(pin, loader, aliases, factory_sources, args.packages_dir)
+
+    if not any(e["gbm_present"] for e in report["packages"]):
+        print("error: no mapped gnome-build-meta elements resolved — checkout is unusable", file=sys.stderr)
+        return 2
 
     args.json_out.parent.mkdir(parents=True, exist_ok=True)
     args.json_out.write_text(json.dumps(report, indent=2, sort_keys=False) + "\n")

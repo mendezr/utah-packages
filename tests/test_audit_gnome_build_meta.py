@@ -280,5 +280,180 @@ class ReportTests(unittest.TestCase):
             self.assertEqual(classes["mutter"], ALIGNED)
 
 
+class FailClosedTests(unittest.TestCase):
+    """The audit must not write a plausible all-unmapped report when the checkout is unusable."""
+
+    def test_non_git_checkout_requires_no_verify(self) -> None:
+        from tools.audit_gnome_build_meta import _verify_checkout, Loader
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # No .git directory — not a git checkout.
+            loader = Loader(root)
+            with self.assertRaises(SystemExit) as cm:
+                _verify_checkout(loader, "a50b8c9de35f51c6a646c8178cde3c2c176725b6")
+            self.assertIn("not a git repository", str(cm.exception))
+
+    def test_non_git_checkout_passes_with_no_verify(self) -> None:
+        # main() with --no-verify should allow an exported snapshot.
+        import json as _json
+        from tools.audit_gnome_build_meta import main as audit_main
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # Build a minimal gbm tree that will resolve at least one element.
+            make_gbm_tree(root)
+            pin = {
+                "schema": 1,
+                "source": {"release_tag": "51.0", "release_commit": "a50b8c9de35f51c6a646c8178cde3c2c176725b6"},
+                "element_path": {"project_conf": "project.conf", "root": "elements"},
+                "mapping": {"mutter": "core/mutter.bst"},
+                "factory_alias": {},
+            }
+            pin_path = root / "pin.json"
+            pin_path.write_text(_json.dumps(pin))
+            sources_path = root / "sources.json"
+            sources_path.write_text(_json.dumps({"packages": [{"name": "mutter", "version": "51.beta"}]}))
+            pkg = root / "packages" / "mutter"
+            pkg.mkdir(parents=True)
+            (pkg / "mutter.spec").write_text("Name: mutter\nVersion: 51.beta\n")
+            json_out = Path(tmp) / "out.json"
+            md_out = Path(tmp) / "out.md"
+            rc = audit_main([
+                "--gbm-dir", str(root),
+                "--pin", str(pin_path),
+                "--sources", str(sources_path),
+                "--packages-dir", str(root / "packages"),
+                "--json-out", str(json_out),
+                "--markdown-out", str(md_out),
+                "--no-verify",
+            ])
+            self.assertEqual(rc, 0)
+            self.assertTrue(json_out.exists())
+
+    def test_missing_elements_root_fails(self) -> None:
+        from tools.audit_gnome_build_meta import main as audit_main
+        import json as _json
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # Create a git repo but no elements/ directory
+            import subprocess as _sp
+            _sp.run(["git", "init", str(root)], capture_output=True, check=True)
+            _sp.run(["git", "-C", str(root), "config", "user.email", "test@test"], capture_output=True)
+            _sp.run(["git", "-C", str(root), "config", "user.name", "test"], capture_output=True)
+            (root / "dummy").write_text("x")
+            _sp.run(["git", "-C", str(root), "add", "."], capture_output=True)
+            _sp.run(["git", "-C", str(root), "commit", "-m", "init"], capture_output=True)
+            # Now init repo at the pinned commit would fail verification, so use --no-verify
+            pin = {
+                "schema": 1,
+                "source": {"release_tag": "51.0", "release_commit": _sp.run(["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()},
+                "element_path": {"project_conf": "project.conf", "root": "elements"},
+                "mapping": {"mutter": "core/mutter.bst"},
+                "factory_alias": {},
+            }
+            pin_path = root / "pin.json"
+            pin_path.write_text(_json.dumps(pin))
+            sources_path = root / "sources.json"
+            sources_path.write_text(_json.dumps({"packages": [{"name": "mutter", "version": "51.beta"}]}))
+            json_out = Path(tmp) / "out.json"
+            md_out = Path(tmp) / "out.md"
+            rc = audit_main([
+                "--gbm-dir", str(root),
+                "--pin", str(pin_path),
+                "--sources", str(sources_path),
+                "--packages-dir", str(root / "packages"),
+                "--json-out", str(json_out),
+                "--markdown-out", str(md_out),
+                "--no-verify",
+            ])
+            self.assertEqual(rc, 2)
+            self.assertFalse(json_out.exists())
+
+    def test_zero_elements_resolved_fails(self) -> None:
+        from tools.audit_gnome_build_meta import main as audit_main
+        import json as _json, subprocess as _sp
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _sp.run(["git", "init", str(root)], capture_output=True, check=True)
+            _sp.run(["git", "-C", str(root), "config", "user.email", "test@test"], capture_output=True)
+            _sp.run(["git", "-C", str(root), "config", "user.name", "test"], capture_output=True)
+            (root / "elements").mkdir(parents=True)
+            (root / "dummy").write_text("x")
+            _sp.run(["git", "-C", str(root), "add", "."], capture_output=True)
+            _sp.run(["git", "-C", str(root), "commit", "-m", "init"], capture_output=True)
+            head = _sp.run(["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+            pin = {
+                "schema": 1,
+                "source": {"release_tag": "51.0", "release_commit": head},
+                "element_path": {"project_conf": "project.conf", "root": "elements"},
+                "mapping": {"mutter": "core/mutter.bst"},
+                "factory_alias": {},
+            }
+            pin_path = root / "pin.json"
+            pin_path.write_text(_json.dumps(pin))
+            sources_path = root / "sources.json"
+            sources_path.write_text(_json.dumps({"packages": [{"name": "mutter", "version": "51.beta"}]}))
+            json_out = Path(tmp) / "out.json"
+            md_out = Path(tmp) / "out.md"
+            rc = audit_main([
+                "--gbm-dir", str(root),
+                "--pin", str(pin_path),
+                "--sources", str(sources_path),
+                "--packages-dir", str(root / "packages"),
+                "--json-out", str(json_out),
+                "--markdown-out", str(md_out),
+                # not using --no-verify, so _verify_checkout will pass (git repo at right commit)
+            ])
+            self.assertEqual(rc, 2)
+            self.assertFalse(json_out.exists())
+
+
+class IncludeIsolationTests(unittest.TestCase):
+    """Cross-element include contamination: Loader.seen must be per-element."""
+
+    def test_includes_are_per_element(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # Two elements each including a different file.
+            write(root, "include/aliases.yml", ALIASES)
+            write(root, "include/one.yml", "variables:\n  one: true\n")
+            write(root, "include/two.yml", "variables:\n  two: true\n")
+            write(root, "elements/core/a.bst", "kind: meson\n(@): include/one.yml\nvariables:\n  a: 1\n")
+            write(root, "elements/core/b.bst", "kind: meson\n(@): include/two.yml\nvariables:\n  b: 1\n")
+            pin = {
+                "schema": 1,
+                "source": {"release_tag": "51.0", "release_commit": "a50b8c9de35f51c6a646c8178cde3c2c176725b6"},
+                "element_path": {"project_conf": "project.conf", "root": "elements"},
+                "mapping": {"a": "core/a.bst", "b": "core/b.bst"},
+                "factory_alias": {},
+            }
+            sources = {
+                "a": {"name": "a", "version": "1.0"},
+                "b": {"name": "b", "version": "1.0"},
+            }
+            loader = Loader(root)
+            report = build_report(pin, loader, _aliases(loader), sources, root / "packages")
+            by_name = {e["rpm_name"]: e for e in report["packages"]}
+            # Each element should only report its own include, not the accumulated set.
+            self.assertEqual(by_name["a"]["gnome_build_meta"]["includes"], ["include/one.yml"])
+            self.assertEqual(by_name["b"]["gnome_build_meta"]["includes"], ["include/two.yml"])
+
+
+class MergeTests(unittest.TestCase):
+    def test_merge_handles_overlay_operator(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            loader = Loader(root)
+            base = {"variables": {"a": "1"}, "depends": ["x.bst"]}
+            over = {"(>)variables": {"b": "2"}, "(>)depends": ["y.bst"]}
+            merged = loader._merge(base, over)
+            # (>)variables should have been merged into variables, not dropped.
+            self.assertIn("variables", merged)
+            self.assertEqual(merged["variables"]["a"], "1")
+            self.assertEqual(merged["variables"]["b"], "2")
+            self.assertIn("y.bst", merged["depends"])
+            self.assertIn("x.bst", merged["depends"])
+
+
 if __name__ == "__main__":
     unittest.main()
+
