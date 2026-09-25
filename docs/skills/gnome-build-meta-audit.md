@@ -35,6 +35,9 @@ packaging and not a one-time spreadsheet.
   `gvfs* -> sdk-deps/gvfs.bst|sdk/gvfs-client.bst|core/gvfs-daemon.bst`.
 - `factory_alias` — subpackages/renames that resolve to a real factory source
   registry name (`gvfs-client`, `gvfs-daemon` -> `gvfs`).
+- `classification_overrides` — reviewer decisions on `needs_review` entries
+  (see [Classification](#classification)), so a human judgement is not reset by
+  the next re-run.
 - `unmapped` — GNOME-owned or GNOME-tangential factory sources deliberately
   out of scope, each with the reason it is not mapped. Every GNOME-owned
   factory source must be either mapped or listed here: the report's
@@ -70,13 +73,23 @@ For every mapped GNOME-owned factory source the audit reports:
   says the release line was **NOT compared** instead of reporting alignment.
 - **patches**: gbm `kind: patch` sources vs Fedora spec `Patch:`/`PatchN:`
   references.
-- **feature flags**: gbm `variables` (e.g. `meson-local`) vs spec `-D...`
-  options.
-- **dependency categories**: gbm `build-depends` / `runtime-depends` / `depends`
-  are recorded alongside the spec's `BuildRequires:` and `Requires:` edges. Both
-  sides are reported; the tool does not diff them, because a gbm element path
-  and an RPM name are not mechanically comparable — the comparison is the
-  reviewer's, and the report exists to put both lists in front of them.
+- **feature flags**: gbm `variables` (e.g. `meson-local: "-Dprofiler=false"`)
+  are parsed into `-D` options and diffed against the spec's `-D...` options.
+  `feature_comparison` per entry reports the options only one side passes and
+  the options both sides pass with a **different value** (`gtk3`'s
+  `-Dprofiler=false` in gbm vs `true` in the spec); `true`/`enabled` and
+  `false`/`disabled` are normalized so a spelling difference is not reported as
+  a conflict. A conflicting option is drift evidence and makes the entry
+  `needs_review`.
+- **dependency categories**: gbm `build-depends` / `runtime-depends` /
+  `depends` are compared against the spec's `BuildRequires:` / `Requires:`
+  edges by normalized name (`pkgconfig(gtk4)` and `gtk4-devel` both normalize
+  to the gbm element `gtk`). `dependency_comparison` reports which gbm edges
+  matched a factory edge and which did not. Only that direction is reported:
+  an RPM spec also carries Fedora toolchain/packaging edges that have no gbm
+  element by design. Both raw lists stay in the report, because a gbm element
+  path and an RPM name are not fully mechanically comparable — the judgement is
+  the reviewer's, and this narrows what they have to read.
 - **component membership**: whether the gbm element exists and is a core/sdk/
   core-deps component, and whether the factory source is tracked at all.
 
@@ -100,6 +113,38 @@ Every difference is labelled, never treated as an automatic defect:
 The classifier is conservative: it flags any material drift as `needs_review`
 so the default behaviour is human confirmation, not silent acceptance.
 
+### Recording a review decision
+
+`aligned`, `needs_review` and `unmapped` are the tool's own verdicts. The three
+human classifications are recorded in `classification_overrides` in
+`config/gnome-build-meta.json`, which is what makes them survive a re-run (the
+weekly workflow included):
+
+```json
+"classification_overrides": {
+  "gtk3": {
+    "classification": "intentional_fedora",
+    "reason": "Fedora builds gtk3 with -Dprofiler=true for sysprof support; reviewed <date>/<PR>."
+  }
+}
+```
+
+Rules the tool enforces (a malformed override is a hard error, never ignored
+silently, because an override hides an entry from review):
+
+- `classification` must be `intentional_fedora`, `intentional_hummingbird` or
+  `actionable_drift`, and `reason` must be non-empty.
+- the key must exist in `mapping`.
+- the override applies **only** while the tool still classifies the entry
+  `needs_review`. If the evidence changes (a bump realigns the entry, or new
+  drift appears), the override is reported as ignored in the entry's `notes`
+  and the entry returns to the tool's classification — a stale decision cannot
+  mask new drift.
+
+The JSON report keeps both verdicts per entry: `auto_classification` /
+`auto_reason` (the tool) and `classification` / `classification_override` (the
+recorded decision).
+
 ## Update procedure for a newer GNOME release
 
 No tool changes are required to audit a newer release:
@@ -107,8 +152,16 @@ No tool changes are required to audit a newer release:
 1. In `config/gnome-build-meta.json`, bump `source.release_tag` and
    `source.release_commit` to the new pinned tag/commit.
 2. `git clone`/`git checkout` gnome-build-meta at that commit.
-3. Re-run the command above. Fix any `name mapping:` (new module renames) and
-   re-classify `needs_review` entries.
+3. Re-run the command above. Then work the report:
+   - fix any entry whose `notes` say the mapped element was **not found in
+     gnome-build-meta** (an element renamed or moved in the new release) by
+     updating its `mapping` entry;
+   - add a `mapping` or `unmapped` entry for anything listed under
+     `unaccounted_gnome_sources`;
+   - re-check every `needs_review` entry and record the decision in
+     `classification_overrides` (see above). Overrides whose entry is no longer
+     `needs_review` are reported as ignored in that entry's `notes` — remove
+     them.
 4. Do **not** follow mutable `master`; always pin a concrete tag + full commit.
 
 File focused follow-up issues or small PRs for `actionable_drift`, and never

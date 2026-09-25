@@ -15,6 +15,8 @@
     "gvfs-client": "gvfs",
     "gvfs-daemon": "gvfs"
   },
+  "classification_overrides_docs": "Reviewer decisions on needs_review entries, so a human classification survives a re-run. Key: an RPM name from mapping. Value: {classification, reason}, classification one of intentional_fedora, intentional_hummingbird, actionable_drift. An override only applies while the tool still classifies the entry needs_review; if the evidence changes, the override is reported as ignored so the entry returns to review.",
+  "classification_overrides": {},
   "mapping": {
     "mutter": "core/mutter.bst",
     "gnome-shell": "core/gnome-shell.bst",

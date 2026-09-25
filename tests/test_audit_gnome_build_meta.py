@@ -17,7 +17,9 @@ import tempfile
 import unittest
 
 from tools.audit_gnome_build_meta import (
+    ACTIONABLE,
     ALIGNED,
+    INTENTIONAL_FEDORA,
     NEEDS_REVIEW,
     UNMAPPED,
     Loader,
@@ -27,9 +29,14 @@ from tools.audit_gnome_build_meta import (
     _secondary_sources,
     _unaccounted_gnome_sources,
     classify,
+    dependency_comparison,
     element_patch_sources,
+    feature_comparison,
+    gbm_feature_options,
+    load_pin,
     meson_options,
     release_line,
+    render_markdown,
     resolve_element,
     same_release_line,
     spec_dependencies,
@@ -783,6 +790,196 @@ class PinConfigTests(unittest.TestCase):
         self.assertNotIn("tinysparql", pin.get("factory_alias", {}))
         self.assertEqual(pin["mapping"]["tinysparql"], "sdk/tinysparql.bst")
         self.assertEqual(pin["mapping"]["localsearch"], "core-deps/localsearch.bst")
+
+
+class FeatureComparisonTests(unittest.TestCase):
+    """Feature options must be diffed, not dumped side by side in two shapes."""
+
+    def test_gbm_variable_string_is_parsed_into_options(self) -> None:
+        options = gbm_feature_options(
+            {"meson-local": "-Dxwayland_initfd=enabled -Dprofiler=true"}
+        )
+        self.assertEqual(
+            options, {"xwayland_initfd": "enabled", "profiler": "true"}
+        )
+
+    def test_conflicting_option_value_is_reported(self) -> None:
+        diff = feature_comparison(
+            {"meson-local": "-Dprofiler=false"}, {"profiler": "true"}
+        )
+        self.assertEqual(
+            diff["conflicting"],
+            [{
+                "option": "profiler",
+                "gbm_option": "profiler",
+                "gbm_value": "false",
+                "factory_value": "true",
+            }],
+        )
+
+    def test_true_and_enabled_are_not_a_conflict(self) -> None:
+        diff = feature_comparison({"meson-local": "-Dprofiler=true"}, {"profiler": "enabled"})
+        self.assertEqual(diff["conflicting"], [])
+        self.assertEqual(len(diff["same_value"]), 1)
+
+    def test_subproject_qualifier_is_ignored_when_matching(self) -> None:
+        diff = feature_comparison(
+            {"meson-local": "-Dextensions-tool:bash_completion=disabled"},
+            {"bash_completion": "enabled"},
+        )
+        self.assertEqual(
+            [item["gbm_option"] for item in diff["conflicting"]],
+            ["extensions-tool:bash_completion"],
+        )
+
+    def test_one_sided_options_are_listed_per_side(self) -> None:
+        diff = feature_comparison(
+            {"meson-local": "-Dprofiler=true"}, {"documentation": "true"}
+        )
+        self.assertEqual(diff["only_in_gbm"], ["profiler"])
+        self.assertEqual(diff["only_in_factory"], ["documentation"])
+
+    def test_conflicting_option_makes_the_entry_needs_review(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = make_gbm_tree(Path(tmp))
+            loader = Loader(root)
+            el = resolve_element(loader, _aliases(loader), "elements/core/mutter.bst")
+            cls, reason = classify(
+                el, {"name": "mutter", "patches": []}, "51.0", {"profiler": "false"}
+            )
+            self.assertEqual(cls, NEEDS_REVIEW)
+            self.assertIn("-Dprofiler", reason)
+
+
+class DependencyComparisonTests(unittest.TestCase):
+    def test_gbm_edges_match_pkgconfig_and_devel_names(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = make_gbm_tree(Path(tmp))
+            loader = Loader(root)
+            el = resolve_element(loader, _aliases(loader), "elements/core/mutter.bst")
+            result = dependency_comparison(
+                el,
+                {
+                    "build_requires": ["pkgconfig(glib-2.0)", "gobject-introspection-devel"],
+                    "requires": ["gnome-desktop3"],
+                },
+            )
+            self.assertIn("sdk/glib.bst", result["matched_in_factory"])
+            self.assertIn("sdk/gobject-introspection.bst", result["matched_in_factory"])
+            self.assertIn("core/gnome-desktop.bst", result["matched_in_factory"])
+            self.assertIn("core/gnome-control-center.bst", result["gbm_only"])
+
+    def test_no_element_yields_empty_comparison(self) -> None:
+        result = dependency_comparison(None, {"build_requires": ["glib2-devel"]})
+        self.assertEqual(result["gbm_edges"], 0)
+        self.assertEqual(result["gbm_only"], [])
+
+
+class SecondarySourceAliasTests(unittest.TestCase):
+    def test_secondary_source_url_is_alias_expanded(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = make_gbm_tree(Path(tmp))
+            loader = Loader(root)
+            aliases = _aliases(loader)
+            el = resolve_element(loader, aliases, "elements/core/mutter.bst")
+            secondaries = _secondary_sources(el, aliases)
+            self.assertEqual(len(secondaries), 1)
+            self.assertEqual(
+                secondaries[0]["url"], "https://gitlab.gnome.org/GNOME/gvdb.git"
+            )
+
+
+class ClassificationOverrideTests(unittest.TestCase):
+    """A reviewer decision must survive a re-run, and must not mask new drift."""
+
+    def _pin_with_override(self, override: dict) -> dict:
+        pin = json.loads(json.dumps(PIN))
+        pin["classification_overrides"] = {"mutter": override}
+        return pin
+
+    def _report(self, root: Path, pin: dict, spec: str) -> dict:
+        make_gbm_tree(root)
+        sources = {
+            "mutter": {"name": "mutter", "version": "51.0", "filename": "mutter-51.0.tar.xz"},
+            "gvfs": {"name": "gvfs", "version": "1.61.91", "filename": "gvfs-1.61.91.tar.xz"},
+        }
+        packages_dir = write(root, "packages/mutter/mutter.spec", spec)
+        loader = Loader(root)
+        return build_report(
+            pin, loader, _aliases(loader), sources, packages_dir.parents[1]
+        )
+
+    def test_override_applies_to_a_needs_review_entry(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self._pin_with_override({
+                "classification": INTENTIONAL_FEDORA,
+                "reason": "Fedora keeps the profiler enabled",
+            })
+            report = self._report(
+                Path(tmp), pin,
+                "Name: mutter\nVersion: 51.0\n%meson -Dprofiler=false\n",
+            )
+            entry = next(e for e in report["packages"] if e["rpm_name"] == "mutter")
+            self.assertEqual(entry["auto_classification"], NEEDS_REVIEW)
+            self.assertEqual(entry["classification"], INTENTIONAL_FEDORA)
+            self.assertEqual(entry["reason"], "Fedora keeps the profiler enabled")
+            self.assertIn("-Dprofiler", entry["auto_reason"])
+
+    def test_stale_override_is_ignored_and_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self._pin_with_override({
+                "classification": ACTIONABLE,
+                "reason": "recorded when mutter still drifted",
+            })
+            report = self._report(
+                Path(tmp), pin, "Name: mutter\nVersion: 51.0\n%meson\n"
+            )
+            entry = next(e for e in report["packages"] if e["rpm_name"] == "mutter")
+            self.assertEqual(entry["classification"], ALIGNED)
+            self.assertIsNone(entry["classification_override"])
+            self.assertTrue(
+                any("ignored" in note for note in entry["notes"]), entry["notes"]
+            )
+
+    def test_override_is_rendered_in_the_markdown_report(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self._pin_with_override({
+                "classification": INTENTIONAL_FEDORA,
+                "reason": "Fedora keeps the profiler enabled",
+            })
+            report = self._report(
+                Path(tmp), pin,
+                "Name: mutter\nVersion: 51.0\n%meson -Dprofiler=false\n",
+            )
+            text = render_markdown(report)
+            self.assertIn("Reviewer override", text)
+            self.assertIn("Fedora keeps the profiler enabled", text)
+            self.assertIn("Feature option conflict", text)
+            self.assertNotIn("see JSON report for the full diff", text)
+
+    def test_invalid_override_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for override, field in (
+                ({"classification": "aligned", "reason": "x"}, "classification"),
+                ({"classification": INTENTIONAL_FEDORA, "reason": ""}, "reason"),
+            ):
+                pin = self._pin_with_override(override)
+                path = write(root, "pin.json", json.dumps(pin))
+                with self.assertRaises(ValueError):
+                    load_pin(path)
+            pin = json.loads(json.dumps(PIN))
+            pin["classification_overrides"] = {
+                "not-mapped": {"classification": ACTIONABLE, "reason": "x"}
+            }
+            path = write(root, "pin.json", json.dumps(pin))
+            with self.assertRaises(ValueError):
+                load_pin(path)
+
+    def test_committed_pin_overrides_are_valid(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        pin = load_pin(repo_root / "config/gnome-build-meta.json")
+        self.assertIsInstance(pin.get("classification_overrides", {}), dict)
 
 
 if __name__ == "__main__":

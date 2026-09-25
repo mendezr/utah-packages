@@ -1,9 +1,11 @@
 # GNOME recipes vs gnome-build-meta audit
 
 - GNOME release: `51.0` @ `a50b8c9de35f51c6a646c8178cde3c2c176725b6`
-- factory revision audited: `bbe9346727f137c7a8dccfa20aa0e1bd9cbc5bd3`
+- factory revision audited: `7422b2ddd4f636ed248bf37cf504a425437a0461`
 
-Every difference is classified, not treated as an automatic defect. `needs_review` entries carry evidence for a human to re-classify as intentional Fedora/RPM integration, intentional Hummingbird/downstream policy, or actionable drift.
+Every difference is classified, not treated as an automatic defect. `needs_review` entries carry evidence for a human to re-classify as intentional Fedora/RPM integration, intentional Hummingbird/downstream policy, or actionable drift. Record that decision in `classification_overrides` in `config/gnome-build-meta.json` so it survives the next re-run; an override is dropped (and reported) as soon as the tool no longer sees the entry as `needs_review`.
+
+Feature options are diffed (`-D` options parsed from both the gbm element variables and the spec's configure invocation); dependency edges are compared by normalized name, and only unmatched **gbm** edges are counted, because an RPM spec also carries Fedora toolchain/packaging edges that have no gbm element by design. The JSON report holds the full `feature_comparison` and `dependency_comparison` per entry.
 
 ## Summary
 
@@ -64,8 +66,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `51.beta`
 - GBM primary source: `https://download.gnome.org/sources/mutter/51/mutter-51.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 31
+- Feature options: 0 same, 0 conflicting, 2 gbm-only, 0 factory-only
+- Dependency edges: 31 gbm / 63 factory; 16 gbm edge(s) matched a factory edge, 15 not matched
 
 ## gnome-shell → `core/gnome-shell.bst`
 
@@ -75,8 +77,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Factory version: `51.beta`
 - GBM primary source: `https://download.gnome.org/sources/gnome-shell/51/gnome-shell-51.0.tar.xz`
 - Factory patches: gnome-shell-favourite-apps-firefox.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 32
+- Feature options: 0 same, 0 conflicting, 1 gbm-only, 1 factory-only
+- Dependency edges: 32 gbm / 61 factory; 10 gbm edge(s) matched a factory edge, 22 not matched
 
 ## gnome-control-center → `core/gnome-control-center.bst`
 
@@ -85,8 +87,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `51.beta`
 - GBM primary source: `https://download.gnome.org/sources/gnome-control-center/51/gnome-control-center-51.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 37
+- Feature options: 2 same, 0 conflicting, 0 gbm-only, 3 factory-only
+- Dependency edges: 37 gbm / 61 factory; 19 gbm edge(s) matched a factory edge, 18 not matched
 
 ## gnome-session → `core/gnome-session.bst`
 
@@ -96,8 +98,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Factory version: `51.beta`
 - GBM primary source: `https://download.gnome.org/sources/gnome-session/51/gnome-session-51.0.tar.xz`
 - Factory patches: 0001-Fedora-Set-grub-boot-flags-on-shutdown-reboot.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 10
+- Feature options: 0 same, 0 conflicting, 1 gbm-only, 0 factory-only
+- Dependency edges: 10 gbm / 15 factory; 4 gbm edge(s) matched a factory edge, 6 not matched
 
 ## gnome-settings-daemon → `core/gnome-settings-daemon.bst`
 
@@ -106,7 +108,7 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `51.beta`
 - GBM primary source: `https://download.gnome.org/sources/gnome-settings-daemon/51/gnome-settings-daemon-51.0.tar.xz`
-- GBM dependency edges: 25
+- Dependency edges: 25 gbm / 46 factory; 9 gbm edge(s) matched a factory edge, 16 not matched
 
 ## gnome-desktop3 → `core/gnome-desktop.bst`
 
@@ -115,8 +117,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `51.alpha`
 - GBM primary source: `https://download.gnome.org/sources/gnome-desktop/51/gnome-desktop-51.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 13
+- Feature options: 2 same, 0 conflicting, 0 gbm-only, 0 factory-only
+- Dependency edges: 13 gbm / 24 factory; 11 gbm edge(s) matched a factory edge, 2 not matched
 
 ## gnome-bluetooth → `core/gnome-bluetooth.bst`
 
@@ -125,19 +127,20 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `47.2`
 - GBM primary source: `https://download.gnome.org/sources/gnome-bluetooth/47/gnome-bluetooth-47.2.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 13
+- Feature options: 1 same, 0 conflicting, 0 gbm-only, 0 factory-only
+- Dependency edges: 13 gbm / 18 factory; 8 gbm edge(s) matched a factory edge, 5 not matched
 
 ## nautilus → `core/nautilus.bst`
 
 - Classification: **needs_review**
-- Reason: factory carries 1 local patch(es); gbm none
+- Reason: factory carries 1 local patch(es); gbm none; feature options conflict: -Dselinux gbm false vs factory true
 
 - Factory version: `51~beta`
 - GBM primary source: `https://download.gnome.org/sources/nautilus/51/nautilus-51.0.1.tar.xz`
 - Factory patches: default-terminal.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 20
+- Feature option conflict: `-Dselinux` = `true` (factory) vs `false` (gbm `-Dselinux`)
+- Feature options: 0 same, 1 conflicting, 0 gbm-only, 4 factory-only
+- Dependency edges: 20 gbm / 36 factory; 12 gbm edge(s) matched a factory edge, 8 not matched
 
 ## gjs → `sdk/gjs.bst`
 
@@ -146,19 +149,20 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `1.89.2`
 - GBM primary source: `https://download.gnome.org/sources/gjs/1.90/gjs-1.90.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 8
+- Feature options: 0 same, 0 conflicting, 2 gbm-only, 0 factory-only
+- Dependency edges: 8 gbm / 20 factory; 4 gbm edge(s) matched a factory edge, 4 not matched
 
 ## gtk3 → `sdk/gtk+-3.bst`
 
 - Classification: **needs_review**
-- Reason: factory carries 2 local patch(es); gbm none
+- Reason: factory carries 2 local patch(es); gbm none; feature options conflict: -Dprofiler gbm false vs factory true
 
 - Factory version: `3.24.52`
 - GBM primary source: `https://download.gnome.org/sources/gtk/3.24/gtk-3.24.52.tar.xz`
 - Factory patches: 9852_export_xdg_toplevel.patch, 9956_pointer_focus.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 24
+- Feature option conflict: `-Dprofiler` = `true` (factory) vs `false` (gbm `-Dprofiler`)
+- Feature options: 5 same, 1 conflicting, 6 gbm-only, 4 factory-only
+- Dependency edges: 24 gbm / 48 factory; 10 gbm edge(s) matched a factory edge, 14 not matched
 
 ## gtk4 → `sdk/gtk.bst`
 
@@ -167,8 +171,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `4.23.3`
 - GBM primary source: `https://download.gnome.org/sources/gtk/4.24/gtk-4.24.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 26
+- Feature options: 4 same, 0 conflicting, 0 gbm-only, 5 factory-only
+- Dependency edges: 26 gbm / 62 factory; 9 gbm edge(s) matched a factory edge, 17 not matched
 
 ## libadwaita → `sdk/libadwaita.bst`
 
@@ -178,8 +182,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Factory version: `1.10.beta.1`
 - GBM primary source: `https://download.gnome.org/sources/libadwaita/1.10/libadwaita-1.10.0.tar.xz`
 - Factory patches: fix-sassc-requirement-for-tarball-builds.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 9
+- Feature options: 0 same, 0 conflicting, 2 gbm-only, 1 factory-only
+- Dependency edges: 9 gbm / 16 factory; 5 gbm edge(s) matched a factory edge, 4 not matched
 
 ## gdk-pixbuf2 → `sdk/gdk-pixbuf.bst`
 
@@ -189,8 +193,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Factory version: `2.44.8`
 - GBM primary source: `https://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-2.44.8.tar.xz`
 - Factory patches: CVE-2026-16768.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 10
+- Feature options: 0 same, 0 conflicting, 10 gbm-only, 4 factory-only
+- Dependency edges: 10 gbm / 15 factory; 4 gbm edge(s) matched a factory edge, 6 not matched
 
 ## pango → `sdk/pango.bst`
 
@@ -199,8 +203,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `1.58.2`
 - GBM primary source: `https://download.gnome.org/sources/pango/1.58/pango-1.58.2.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 13
+- Feature options: 0 same, 0 conflicting, 2 gbm-only, 3 factory-only
+- Dependency edges: 13 gbm / 28 factory; 10 gbm edge(s) matched a factory edge, 3 not matched
 
 ## cairo → `sdk/cairo.bst`
 
@@ -210,8 +214,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Factory version: `1.18.4`
 - GBM primary source: `https://gitlab.freedesktop.org/cairo/cairo.git`
 - Factory patches: cairo-multilib.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 9
+- Feature options: 3 same, 0 conflicting, 0 gbm-only, 7 factory-only
+- Dependency edges: 9 gbm / 18 factory; 6 gbm edge(s) matched a factory edge, 3 not matched
 
 ## librsvg2 → `sdk/librsvg.bst`
 
@@ -221,8 +225,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Factory version: `2.62.3`
 - GBM primary source: `https://download.gnome.org/sources/librsvg/2.63/librsvg-2.63.0.tar.xz`
 - Factory patches: 0001-Fedora-Drop-dependencies-required-for-benchmarking.patch, 0002-Fedora-Drop-dependencies-and-references-to-mutation-.patch, 0003-Fedora-Drop-windows-specific-dependencies.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 14
+- Feature options: 0 same, 0 conflicting, 2 gbm-only, 1 factory-only
+- Dependency edges: 13 gbm / 23 factory; 8 gbm edge(s) matched a factory edge, 5 not matched
 
 ## gsettings-desktop-schemas → `sdk/gsettings-desktop-schemas.bst`
 
@@ -231,7 +235,7 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `51.beta`
 - GBM primary source: `https://download.gnome.org/sources/gsettings-desktop-schemas/51/gsettings-desktop-schemas-51.0.tar.xz`
-- GBM dependency edges: 4
+- Dependency edges: 4 gbm / 6 factory; 3 gbm edge(s) matched a factory edge, 1 not matched
 
 ## glib-networking → `sdk/glib-networking.bst`
 
@@ -240,8 +244,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `2.90~alpha`
 - GBM primary source: `https://download.gnome.org/sources/glib-networking/2.90/glib-networking-2.90.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 7
+- Feature options: 1 same, 0 conflicting, 0 gbm-only, 2 factory-only
+- Dependency edges: 7 gbm / 15 factory; 6 gbm edge(s) matched a factory edge, 1 not matched
 
 ## gvfs → `sdk-deps/gvfs.bst`
 
@@ -250,8 +254,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `1.61.91`
 - GBM primary source: `https://download.gnome.org/sources/gvfs/1.62/gvfs-1.62.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 28
+- Feature options: 0 same, 0 conflicting, 1 gbm-only, 10 factory-only
+- Dependency edges: 28 gbm / 43 factory; 19 gbm edge(s) matched a factory edge, 9 not matched
 
 ## gvfs-client → `sdk/gvfs-client.bst`
 
@@ -259,8 +263,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Reason: gbm element is a filter aggregating shared sources; membership aligned (no independent source identity to compare)
 
 - Factory version: `1.61.91`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 4
+- Feature options: 0 same, 0 conflicting, 0 gbm-only, 10 factory-only
+- Dependency edges: 4 gbm / 43 factory; 1 gbm edge(s) matched a factory edge, 3 not matched
 
 ## gvfs-daemon → `core/gvfs-daemon.bst`
 
@@ -268,8 +272,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Reason: gbm element is a filter aggregating shared sources; membership aligned (no independent source identity to compare)
 
 - Factory version: `1.61.91`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 28
+- Feature options: 0 same, 0 conflicting, 0 gbm-only, 10 factory-only
+- Dependency edges: 28 gbm / 43 factory; 17 gbm edge(s) matched a factory edge, 11 not matched
 
 ## gnome-online-accounts → `core-deps/gnome-online-accounts.bst`
 
@@ -278,19 +282,20 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `3.58.1`
 - GBM primary source: `https://download.gnome.org/sources/gnome-online-accounts/3.58/gnome-online-accounts-3.58.1.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 14
+- Feature options: 0 same, 0 conflicting, 0 gbm-only, 4 factory-only
+- Dependency edges: 14 gbm / 28 factory; 8 gbm edge(s) matched a factory edge, 6 not matched
 
 ## evolution-data-server → `core-deps/evolution-data-server.bst`
 
 - Classification: **needs_review**
-- Reason: release line 3.61 (factory) vs 3.62 (gbm); factory carries 1 local patch(es); gbm none
+- Reason: release line 3.61 (factory) vs 3.62 (gbm); factory carries 1 local patch(es); gbm none; feature options conflict: -DENABLE_OAUTH2_WEBKITGTK gbm OFF vs factory ON
 
 - Factory version: `3.61.3`
 - GBM primary source: `https://download.gnome.org/sources/evolution-data-server/3.62/evolution-data-server-3.62.0.tar.xz`
 - Factory patches: Make-DBUS_SERVICES_PREFIX-runtime-configurable.patch
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 18
+- Feature option conflict: `-DENABLE_OAUTH2_WEBKITGTK` = `ON` (factory) vs `OFF` (gbm `-DENABLE_OAUTH2_WEBKITGTK`)
+- Feature options: 3 same, 1 conflicting, 8 gbm-only, 15 factory-only
+- Dependency edges: 18 gbm / 49 factory; 10 gbm edge(s) matched a factory edge, 8 not matched
 
 ## localsearch → `core-deps/localsearch.bst`
 
@@ -299,8 +304,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `3.12~beta`
 - GBM primary source: `https://download.gnome.org/sources/localsearch/3.12/localsearch-3.12.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 30
+- Feature options: 0 same, 0 conflicting, 1 gbm-only, 10 factory-only
+- Dependency edges: 30 gbm / 37 factory; 13 gbm edge(s) matched a factory edge, 17 not matched
 
 ## tinysparql → `sdk/tinysparql.bst`
 
@@ -308,8 +313,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Reason: factory source not present in config/upstream-sources.json
 
 - GBM primary source: `https://download.gnome.org/sources/tinysparql/3.12/tinysparql-3.12.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 15
+- Feature options: 0 same, 0 conflicting, 3 gbm-only, 0 factory-only
+- Dependency edges: 15 gbm / 0 factory; 0 gbm edge(s) matched a factory edge, 15 not matched
 
 ## xdg-desktop-portal-gnome → `core-deps/xdg-desktop-portal-gnome.bst`
 
@@ -318,8 +323,8 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 
 - Factory version: `51.alpha`
 - GBM primary source: `https://download.gnome.org/sources/xdg-desktop-portal-gnome/51/xdg-desktop-portal-gnome-51.0.tar.xz`
-- Feature options: see JSON report for the full diff.
-- GBM dependency edges: 8
+- Feature options: 0 same, 0 conflicting, 1 gbm-only, 1 factory-only
+- Dependency edges: 8 gbm / 15 factory; 6 gbm edge(s) matched a factory edge, 2 not matched
 
 
 _This is a non-gating evidence report. It is safe to regenerate for a newer GNOME release without rewriting the tool._

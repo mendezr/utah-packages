@@ -22,7 +22,8 @@ membership.
 source-name mapping, subpackage/rename aliases, and deliberate exclusions. Every
 GNOME-owned factory source is either mapped or listed under `unmapped` with a
 reason; the report's `unaccounted_gnome_sources` names any that are in neither
-list.
+list. `classification_overrides` records a reviewer's decision on a
+`needs_review` entry so it survives the next re-run.
 
 ## Running
 

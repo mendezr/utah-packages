@@ -429,6 +429,155 @@ def meson_options(text: str) -> dict[str, str]:
     return out
 
 
+def gbm_feature_options(variables: dict) -> dict[str, str]:
+    """``-Dname=value`` options carried in a gbm element's ``variables``.
+
+    gbm expresses feature choices as a configure-argument string
+    (``meson-local: "-Dxwayland_initfd=enabled -Dprofiler=true"``), i.e. the
+    same evidence the spec side spells as ``-D`` flags on ``%meson``. Parsing
+    it into a mapping is what makes the two sides comparable at all; a raw
+    string beside a dict cannot be diffed.
+    """
+    out: dict[str, str] = {}
+    for value in variables.values():
+        if not isinstance(value, str):
+            continue
+        for match in _MESON_OPTION.finditer(value):
+            name = _unbalanced_brace(match.group(1).strip("-").strip())
+            option_value = (match.group(2) or "").strip().strip("'\"")
+            if name and name not in out:
+                out[name] = _unbalanced_brace(option_value)
+    return out
+
+
+_FEATURE_ENABLED = {"true", "enabled", "yes", "on"}
+_FEATURE_DISABLED = {"false", "disabled", "no", "off"}
+
+
+def normalize_feature_value(value: str) -> str:
+    """Normalize a meson feature value so ``true`` and ``enabled`` compare equal.
+
+    Meson's ``boolean`` and ``feature`` option types spell the same intent two
+    ways, and the two sides do not always pick the same spelling; comparing
+    them verbatim would report a conflict that does not exist.
+    """
+    normalized = (value or "").strip().strip("'\"").lower()
+    if normalized in _FEATURE_ENABLED:
+        return "enabled"
+    if normalized in _FEATURE_DISABLED:
+        return "disabled"
+    return normalized
+
+
+def _feature_key(name: str) -> str:
+    """Option name without a BuildStream subproject qualifier.
+
+    gbm qualifies subproject options (``extensions-tool:bash_completion``);
+    the spec names the bare option, so the qualifier is dropped for matching
+    while both original names stay in the report.
+    """
+    return name.rsplit(":", 1)[-1].lower()
+
+
+def feature_comparison(gbm_variables: dict, factory_options: dict) -> dict:
+    """Diff the feature options of both sides.
+
+    Returns the parsed option mapping for each side plus the actual delta:
+    options only one side passes, and options both pass with a different value
+    (``gtk3``'s ``-Dprofiler``, for one). This is the diff the Markdown report
+    summarizes; the raw sides are kept so a reviewer can see the evidence.
+    """
+    gbm_options = gbm_feature_options(gbm_variables or {})
+    factory_options = dict(factory_options or {})
+    gbm_by_key = {_feature_key(k): k for k in gbm_options}
+    factory_by_key = {_feature_key(k): k for k in factory_options}
+
+    conflicting = []
+    same_value = []
+    for key in sorted(set(gbm_by_key) & set(factory_by_key)):
+        gbm_name = gbm_by_key[key]
+        factory_name = factory_by_key[key]
+        gbm_value = normalize_feature_value(gbm_options[gbm_name])
+        factory_value = normalize_feature_value(factory_options[factory_name])
+        record = {
+            "option": factory_name,
+            "gbm_option": gbm_name,
+            "gbm_value": gbm_options[gbm_name],
+            "factory_value": factory_options[factory_name],
+        }
+        if gbm_value == factory_value:
+            same_value.append(record)
+        else:
+            conflicting.append(record)
+
+    return {
+        "gbm_options": gbm_options,
+        "factory_options": factory_options,
+        "only_in_gbm": sorted(
+            name for key, name in gbm_by_key.items() if key not in factory_by_key
+        ),
+        "only_in_factory": sorted(
+            name for key, name in factory_by_key.items() if key not in gbm_by_key
+        ),
+        "same_value": same_value,
+        "conflicting": conflicting,
+    }
+
+
+def _gbm_dep_name(ref: str) -> str:
+    """Comparable name of a gbm dependency element (``sdk/gtk.bst`` -> ``gtk``)."""
+    name = ref.rsplit("/", 1)[-1].removesuffix(".bst").lower()
+    return _DEP_VERSION_SUFFIX.sub("", name).rstrip("+-") or name
+
+
+_PKGCONFIG_DEP = re.compile(r"^pkgconfig\((.+)\)$", flags=re.IGNORECASE)
+_DEP_VERSION_SUFFIX = re.compile(r"[-_.]?\d+(?:\.\d+)*$")
+
+
+def _rpm_dep_name(name: str) -> str:
+    """Comparable name of an RPM dependency edge.
+
+    ``pkgconfig(glib-2.0)``, ``glib2-devel`` and ``glib2`` all mean the gbm
+    element ``glib``, so the pkgconfig wrapper, a ``-devel``/``-static``/
+    ``-libs`` suffix and the trailing API/version component are removed.
+    """
+    candidate = name.strip().lower()
+    match = _PKGCONFIG_DEP.match(candidate)
+    if match:
+        candidate = match.group(1)
+    for suffix in ("-devel", "-static", "-libs"):
+        candidate = candidate.removesuffix(suffix)
+    return _DEP_VERSION_SUFFIX.sub("", candidate).rstrip("+-") or candidate
+
+
+def dependency_comparison(gbm: "Element | None", factory_spec: dict) -> dict:
+    """Compare the dependency edges of both sides by normalized name.
+
+    Only the gbm side is reported as "missing": a gbm element declares the
+    GNOME-intended dependency set, while an RPM spec additionally carries
+    Fedora toolchain/packaging edges that have no gbm element by design. So a
+    gbm dependency with no matching spec edge is the evidence worth surfacing;
+    the reverse direction is noise, and both raw lists stay in the report.
+    """
+    gbm_refs = []
+    if gbm is not None:
+        gbm_refs = list(
+            dict.fromkeys(gbm.build_depends + gbm.runtime_depends + gbm.depends)
+        )
+    factory_edges = list(factory_spec.get("build_requires", [])) + list(
+        factory_spec.get("requires", [])
+    )
+    factory_names = {_rpm_dep_name(name) for name in factory_edges}
+    matched = [ref for ref in gbm_refs if _gbm_dep_name(ref) in factory_names]
+    missing = [ref for ref in gbm_refs if _gbm_dep_name(ref) not in factory_names]
+    return {
+        "gbm_edges": len(gbm_refs),
+        "factory_edges": len(factory_edges),
+        "matched_in_factory": sorted(matched),
+        "gbm_only": sorted(missing),
+    }
+
+
 _SPEC_REQUIRES = re.compile(
     r"^(BuildRequires|Requires(?:\([^)]*\))?)\s*:\s*(.+)$",
     flags=re.MULTILINE | re.IGNORECASE,
@@ -535,13 +684,16 @@ def _gbm_version(primary: dict) -> str | None:
 
 
 def classify(gbm: Element | None, factory: dict | None,
-             factory_version: str | None) -> tuple[str, str]:
+             factory_version: str | None,
+             factory_features: dict | None = None) -> tuple[str, str]:
     """Classify the difference for one mapped source.
 
     Returns ``(classification, reason)``. The classifier is deliberately
     conservative: it marks *aligned* only when there is no material drift
     evidence, and otherwise returns ``needs_review`` with concrete notes so a
-    human can re-classify as intentional Fedora/Hummingbird policy.
+    human can re-classify the entry (recorded in
+    ``classification_overrides`` in ``config/gnome-build-meta.json``) as
+    intentional Fedora/Hummingbird policy or actionable drift.
     """
     if gbm is None:
         return UNMAPPED, "no gnome-build-meta element in the pinned tree"
@@ -615,6 +767,17 @@ def classify(gbm: Element | None, factory: dict | None,
                 f"{sorted(gbm_names)} vs factory {sorted(spec_names)}"
             )
 
+    features = feature_comparison(gbm.variables, factory_features or {})
+    if features["conflicting"]:
+        drift.append(
+            "feature options conflict: "
+            + ", ".join(
+                f"-D{item['option']} gbm {item['gbm_value'] or '(set)'} vs factory "
+                f"{item['factory_value'] or '(set)'}"
+                for item in features["conflicting"]
+            )
+        )
+
     if drift:
         return NEEDS_REVIEW, "; ".join(drift)
     return ALIGNED, "; ".join(info) if info else "source identity and release line aligned"
@@ -624,6 +787,7 @@ def build_report(pin: dict, loader: Loader, aliases: dict,
                  factory_sources: dict, packages_dir: Path) -> dict:
     mapping = pin["mapping"]
     alias = pin.get("factory_alias", {}) or {}
+    overrides = pin.get("classification_overrides", {}) or {}
     entries = []
     for rpm, elem_path in mapping.items():
         # Subpackages (gvfs-client, gvfs-daemon) resolve to a real factory
@@ -673,7 +837,30 @@ def build_report(pin: dict, loader: Loader, aliases: dict,
         classify_factory = dict(pkg) if pkg else None
         if classify_factory is not None:
             classify_factory["patches"] = factory_spec.get("patches", [])
-        classification, reason = classify(gbm, classify_factory, factory_version)
+        classification, reason = classify(
+            gbm, classify_factory, factory_version,
+            factory_spec.get("meson_options", {}),
+        )
+        auto_classification, auto_reason = classification, reason
+
+        override = overrides.get(rpm)
+        override_record = None
+        if override is not None:
+            if auto_classification == NEEDS_REVIEW:
+                classification = override["classification"]
+                reason = override["reason"]
+                override_record = dict(override)
+            else:
+                notes.append(
+                    f"recorded classification override '{override['classification']}' "
+                    f"ignored: the tool now classifies this entry as "
+                    f"'{auto_classification}'. Remove or update the override in "
+                    f"config/gnome-build-meta.json."
+                )
+
+        features = feature_comparison(
+            gbm.variables if gbm else {}, factory_spec.get("meson_options", {})
+        )
 
         entry = {
             "rpm_name": rpm,
@@ -681,6 +868,12 @@ def build_report(pin: dict, loader: Loader, aliases: dict,
             "gbm_present": gbm is not None,
             "classification": classification,
             "reason": reason,
+            "auto_classification": auto_classification,
+            "auto_reason": auto_reason,
+            "classification_override": override_record,
+            "notes": notes,
+            "feature_comparison": features,
+            "dependency_comparison": dependency_comparison(gbm, factory_spec),
             "factory": {
                 "name": pkg.get("name") if pkg else None,
                 "version": factory_version,
@@ -726,6 +919,9 @@ def _secondary_sources(gbm: Element | None, aliases: dict) -> list[dict]:
 
     Patch sources are excluded -- they carry no ``url`` to compare against the
     primary and are reported by ``element_patch_sources`` under ``patches``.
+    Urls are alias-expanded, as they are for the primary source and for
+    ``element_patch_sources``: reporting a raw ``gnome:gvdb.git`` next to an
+    expanded ``primary_source.url`` makes the two sides look unrelated.
     """
     if gbm is None:
         return []
@@ -737,9 +933,13 @@ def _secondary_sources(gbm: Element | None, aliases: dict) -> list[dict]:
     for source in gbm.sources:
         if source.get("kind") == "patch":
             continue
-        if _expand_alias(str(source.get("url", "")), aliases) == primary_expanded:
+        expanded = _expand_alias(str(source.get("url", "")), aliases)
+        if expanded == primary_expanded:
             continue
-        out.append(source)
+        record = dict(source)
+        if source.get("url"):
+            record["url"] = expanded
+        out.append(record)
     return out
 
 
@@ -869,13 +1069,53 @@ def _load_factory_sources(path: Path) -> dict:
     return {p["name"]: p for p in packages}
 
 
+_OVERRIDE_CLASSIFICATIONS = (
+    INTENTIONAL_FEDORA,
+    INTENTIONAL_HUMMINGBIRD,
+    ACTIONABLE,
+)
+
+
 def load_pin(path: Path) -> dict:
     pin = json.loads(path.read_text())
     if pin.get("schema") != 1:
         raise ValueError(f"unsupported gnome-build-meta pin schema {pin.get('schema')}")
     if not pin.get("mapping"):
         raise ValueError("gnome-build-meta pin has an empty mapping")
+    _validate_overrides(pin)
     return pin
+
+
+def _validate_overrides(pin: dict) -> None:
+    """Check the reviewer-recorded classification overrides.
+
+    An override is how a human decision survives a re-run: without it every
+    re-classification of a ``needs_review`` entry would be reset by the next
+    audit (the weekly workflow included). A malformed or stale override is a
+    configuration error, not something to silently ignore -- it would hide an
+    entry from review.
+    """
+    overrides = pin.get("classification_overrides", {}) or {}
+    if not isinstance(overrides, dict):
+        raise ValueError("classification_overrides must be an object")
+    mapping = pin.get("mapping", {})
+    for rpm, override in overrides.items():
+        if rpm not in mapping:
+            raise ValueError(
+                f"classification override for '{rpm}' has no entry in mapping"
+            )
+        if not isinstance(override, dict):
+            raise ValueError(f"classification override for '{rpm}' must be an object")
+        classification = override.get("classification")
+        if classification not in _OVERRIDE_CLASSIFICATIONS:
+            raise ValueError(
+                f"classification override for '{rpm}' must be one of "
+                f"{', '.join(_OVERRIDE_CLASSIFICATIONS)}; got '{classification}'"
+            )
+        if not (override.get("reason") or "").strip():
+            raise ValueError(
+                f"classification override for '{rpm}' needs a non-empty reason"
+            )
 
 
 def _verify_checkout(loader: Loader, commit: str) -> str:
@@ -911,7 +1151,18 @@ def render_markdown(report: dict) -> str:
         "Every difference is classified, not treated as an automatic defect. "
         "`needs_review` entries carry evidence for a human to re-classify as "
         "intentional Fedora/RPM integration, intentional Hummingbird/downstream "
-        "policy, or actionable drift.",
+        "policy, or actionable drift. Record that decision in "
+        "`classification_overrides` in `config/gnome-build-meta.json` so it "
+        "survives the next re-run; an override is dropped (and reported) as "
+        "soon as the tool no longer sees the entry as `needs_review`.",
+        "",
+        "Feature options are diffed (`-D` options parsed from both the gbm "
+        "element variables and the spec's configure invocation); dependency "
+        "edges are compared by normalized name, and only unmatched **gbm** "
+        "edges are counted, because an RPM spec also carries Fedora "
+        "toolchain/packaging edges that have no gbm element by design. The "
+        "JSON report holds the full `feature_comparison` and "
+        "`dependency_comparison` per entry.",
         "",
     ]
     totals: dict[str, int] = {}
@@ -954,8 +1205,19 @@ def render_markdown(report: dict) -> str:
         lines.append(f"## {entry['rpm_name']} → `{entry['gbm_element']}`")
         lines.append("")
         lines.append(f"- Classification: **{entry['classification']}**")
-        if entry["reason"]:
+        if entry.get("classification_override"):
+            override = entry["classification_override"]
+            lines.append(
+                f"- Reviewer override (recorded in `config/gnome-build-meta.json`): "
+                f"**{override['classification']}** — {override['reason']}"
+            )
+            lines.append(f"- Tool classification: {entry['auto_classification']}")
+            if entry.get("auto_reason"):
+                lines.append(f"- Tool evidence: {entry['auto_reason']}")
+        elif entry["reason"]:
             lines.append(f"- Reason: {entry['reason']}")
+        for note in entry.get("notes", []):
+            lines.append(f"- Note: {note}")
         lines.append("")
         if entry["factory"].get("version"):
             lines.append(f"- Factory version: `{entry['factory']['version']}`")
@@ -966,16 +1228,33 @@ def render_markdown(report: dict) -> str:
             lines.append(f"- Factory patches: {', '.join(entry['factory']['patches'])}")
         if entry["gnome_build_meta"].get("patches"):
             lines.append("- GBM patches: " + ", ".join(entry["gnome_build_meta"]["patches"]))
-        ffeat = entry["factory"].get("features") or {}
-        gfeat = entry["gnome_build_meta"].get("features") or {}
-        if ffeat or gfeat:
-            lines.append("- Feature options: see JSON report for the full diff.")
-        dep_count = (
-            len(entry["gnome_build_meta"].get("depends", []))
-            + len(entry["gnome_build_meta"].get("build_depends", []))
-            + len(entry["gnome_build_meta"].get("runtime_depends", []))
+        features = entry.get("feature_comparison") or {}
+        if features.get("gbm_options") or features.get("factory_options"):
+            for item in features.get("conflicting", []):
+                lines.append(
+                    f"- Feature option conflict: `-D{item['option']}` = "
+                    f"`{item['factory_value']}` (factory) vs "
+                    f"`{item['gbm_value']}` (gbm `-D{item['gbm_option']}`)"
+                )
+            lines.append(
+                "- Feature options: {same} same, {conflict} conflicting, "
+                "{gbm_only} gbm-only, {factory_only} factory-only".format(
+                    same=len(features.get("same_value", [])),
+                    conflict=len(features.get("conflicting", [])),
+                    gbm_only=len(features.get("only_in_gbm", [])),
+                    factory_only=len(features.get("only_in_factory", [])),
+                )
+            )
+        deps = entry.get("dependency_comparison") or {}
+        lines.append(
+            "- Dependency edges: {gbm} gbm / {factory} factory; "
+            "{matched} gbm edge(s) matched a factory edge, {only} not matched".format(
+                gbm=deps.get("gbm_edges", 0),
+                factory=deps.get("factory_edges", 0),
+                matched=len(deps.get("matched_in_factory", [])),
+                only=len(deps.get("gbm_only", [])),
+            )
         )
-        lines.append(f"- GBM dependency edges: {dep_count}")
         lines.append("")
     lines.append("")
     lines.append("_This is a non-gating evidence report. It is safe to regenerate "

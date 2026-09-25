@@ -3,7 +3,7 @@
   "generated_for": {
     "release_tag": "51.0",
     "release_commit": "a50b8c9de35f51c6a646c8178cde3c2c176725b6",
-    "factory_base": "bbe9346727f137c7a8dccfa20aa0e1bd9cbc5bd3"
+    "factory_base": "7422b2ddd4f636ed248bf37cf504a425437a0461"
   },
   "unmapped_factory_sources": [
     {
@@ -171,6 +171,63 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "xwayland_initfd": "enabled",
+          "profiler": "true"
+        },
+        "factory_options": {},
+        "only_in_gbm": [
+          "profiler",
+          "xwayland_initfd"
+        ],
+        "only_in_factory": [],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 31,
+        "factory_edges": 63,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/colord.bst",
+          "core-deps/libdisplay-info.bst",
+          "core-deps/startup-notification.bst",
+          "core-deps/umockdev.bst",
+          "core/gnome-desktop.bst",
+          "core/gnome-settings-daemon.bst",
+          "freedesktop-sdk.bst:components/lcms.bst",
+          "freedesktop-sdk.bst:components/libei.bst",
+          "freedesktop-sdk.bst:components/libinput.bst",
+          "freedesktop-sdk.bst:components/python3-docutils.bst",
+          "freedesktop-sdk.bst:components/xwayland.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/gtk.bst"
+        ],
+        "gbm_only": [
+          "core-deps/python-argcomplete.bst",
+          "core-deps/python-dbusmock.bst",
+          "core-deps/upower.bst",
+          "core/gnome-control-center.bst",
+          "core/sysprof-app.bst",
+          "freedesktop-sdk.bst:components/dummy-gbm.bst",
+          "freedesktop-sdk.bst:components/libgudev.bst",
+          "freedesktop-sdk.bst:components/pipewire.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:components/wayland.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/graphene.bst",
+          "sdk/gtk-doc.bst",
+          "sdk/json-glib.bst",
+          "sdk/pango.bst"
+        ]
+      },
       "factory": {
         "name": "mutter",
         "version": "51.beta",
@@ -260,7 +317,7 @@
         "secondary_sources": [
           {
             "kind": "git_repo",
-            "url": "gnome:gvdb.git",
+            "url": "https://gitlab.gnome.org/GNOME/gvdb.git",
             "directory": "subprojects/gvdb",
             "ref": "b54bc5da25127ef416858a3ad92e57159ff565b3"
           }
@@ -318,6 +375,66 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "factory carries 1 local patch(es); gbm none",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 1 local patch(es); gbm none",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "extensions-tool:bash_completion": "disabled"
+        },
+        "factory_options": {
+          "portal_helper": "true"
+        },
+        "only_in_gbm": [
+          "extensions-tool:bash_completion"
+        ],
+        "only_in_factory": [
+          "portal_helper"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 32,
+        "factory_edges": 61,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/gnome-autoar.bst",
+          "core/gnome-bluetooth.bst",
+          "core/gnome-desktop.bst",
+          "core/mutter.bst",
+          "core/tecla.bst",
+          "freedesktop-sdk.bst:components/python3-docutils.bst",
+          "sdk/gcr.bst",
+          "sdk/gjs.bst",
+          "sdk/gtk.bst"
+        ],
+        "gbm_only": [
+          "core-deps/NetworkManager.bst",
+          "core-deps/accountsservice.bst",
+          "core-deps/dconf.bst",
+          "core-deps/evolution-data-server.bst",
+          "core-deps/jasmine-gjs.bst",
+          "core-deps/libgweather.bst",
+          "core-deps/startup-notification.bst",
+          "core-deps/umockdev.bst",
+          "core-deps/upower.bst",
+          "core/gdm.bst",
+          "core/gnome-settings-daemon.bst",
+          "freedesktop-sdk.bst:components/geoclue-libs.bst",
+          "freedesktop-sdk.bst:components/gstreamer-plugins-base.bst",
+          "freedesktop-sdk.bst:components/gstreamer.bst",
+          "freedesktop-sdk.bst:components/perl.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk-deps/sassc.bst",
+          "sdk/adwaita-icon-theme.bst",
+          "sdk/glib.bst",
+          "sdk/glycin.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/libsoup.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-shell",
         "version": "51.beta",
@@ -409,13 +526,13 @@
         "secondary_sources": [
           {
             "kind": "git_repo",
-            "url": "gnome:libgnome-volume-control.git",
+            "url": "https://gitlab.gnome.org/GNOME/libgnome-volume-control.git",
             "directory": "subprojects/gvc",
             "ref": "d2442f455844e5292cb4a74ffc66ecc8d7595a9f"
           },
           {
             "kind": "git_repo",
-            "url": "gnome:libshew.git",
+            "url": "https://gitlab.gnome.org/GNOME/libshew.git",
             "directory": "subprojects/libshew",
             "ref": "d16afc40412b565d2bbecf80335f54a19a978009"
           }
@@ -474,6 +591,89 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "documentation": "true",
+          "malcontent": "true"
+        },
+        "factory_options": {
+          "documentation": "true",
+          "location-services": "enabled",
+          "distributor_logo": "%{_datadir}/pixmaps/fedora_logo_med.png",
+          "dark_mode_distributor_logo": "%{_datadir}/pixmaps/fedora_whitelogo_med.png",
+          "malcontent": "true"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "dark_mode_distributor_logo",
+          "distributor_logo",
+          "location-services"
+        ],
+        "same_value": [
+          {
+            "option": "documentation",
+            "gbm_option": "documentation",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "malcontent",
+            "gbm_option": "malcontent",
+            "gbm_value": "true",
+            "factory_value": "true"
+          }
+        ],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 37,
+        "factory_edges": 61,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/accountsservice.bst",
+          "core-deps/colord-gtk.bst",
+          "core-deps/colord.bst",
+          "core-deps/gsound.bst",
+          "core-deps/libgtop.bst",
+          "core-deps/malcontent.bst",
+          "core-deps/udisks2.bst",
+          "core/gnome-bluetooth.bst",
+          "core/gnome-desktop.bst",
+          "core/gnome-settings-daemon.bst",
+          "core/tecla.bst",
+          "freedesktop-sdk.bst:components/libwacom.bst",
+          "freedesktop-sdk.bst:components/pwquality.bst",
+          "sdk/blueprint-compiler.bst",
+          "sdk/gdk-pixbuf.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/gtk.bst",
+          "sdk/libadwaita.bst"
+        ],
+        "gbm_only": [
+          "core-deps/NetworkManager.bst",
+          "core-deps/boltd.bst",
+          "core-deps/gnome-online-accounts.bst",
+          "core-deps/ibus-daemon.bst",
+          "core-deps/libnma.bst",
+          "core-deps/power-profiles-daemon.bst",
+          "core-deps/samba.bst",
+          "core-deps/setxkbmap.bst",
+          "core-deps/system-config-printer.bst",
+          "core-deps/upower.bst",
+          "core-deps/xvfb.bst",
+          "core/gnome-color-manager.bst",
+          "freedesktop-sdk.bst:components/gstreamer.bst",
+          "freedesktop-sdk.bst:components/modemmanager.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/adwaita-icon-theme.bst",
+          "sdk/glib.bst",
+          "sdk/gtk-doc.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-control-center",
         "version": "51.beta",
@@ -567,7 +767,7 @@
         "secondary_sources": [
           {
             "kind": "git_repo",
-            "url": "gnome:libgxdp.git",
+            "url": "https://gitlab.gnome.org/GNOME/libgxdp.git",
             "directory": "subprojects/libgxdp",
             "ref": "df896e3412b749947bc6f62a91a1aac8e6b6d19b"
           }
@@ -631,6 +831,40 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "factory carries 1 local patch(es); gbm none",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 1 local patch(es); gbm none",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "mimeapps": "false"
+        },
+        "factory_options": {},
+        "only_in_gbm": [
+          "mimeapps"
+        ],
+        "only_in_factory": [],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 10,
+        "factory_edges": 15,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core/gnome-desktop.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:components/xmlto.bst"
+        ],
+        "gbm_only": [
+          "core-deps/upower.bst",
+          "freedesktop-sdk.bst:components/docbook-xsl.bst",
+          "freedesktop-sdk.bst:components/libxslt.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/gtk.bst",
+          "sdk/json-glib.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-session",
         "version": "51.beta",
@@ -703,6 +937,51 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {},
+        "factory_options": {},
+        "only_in_gbm": [],
+        "only_in_factory": [],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 25,
+        "factory_edges": 46,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/colord.bst",
+          "core-deps/geocode-glib.bst",
+          "core/gnome-desktop.bst",
+          "sdk/gcr.bst",
+          "sdk/glib.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/gtk.bst",
+          "sdk/libnotify.bst"
+        ],
+        "gbm_only": [
+          "core-deps/NetworkManager.bst",
+          "core-deps/cups-pk-helper.bst",
+          "core-deps/ibus-daemon.bst",
+          "core-deps/libcanberra.bst",
+          "core-deps/libgweather.bst",
+          "core-deps/upower.bst",
+          "freedesktop-sdk.bst:components/alsa-lib.bst",
+          "freedesktop-sdk.bst:components/geoclue-libs.bst",
+          "freedesktop-sdk.bst:components/libgudev.bst",
+          "freedesktop-sdk.bst:components/libwacom.bst",
+          "freedesktop-sdk.bst:components/modemmanager.bst",
+          "freedesktop-sdk.bst:components/perl.bst",
+          "freedesktop-sdk.bst:components/systemd-libs.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xtst.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-settings-daemon",
         "version": "51.beta",
@@ -819,6 +1098,58 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 51 matches; factory 51.alpha vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 51 matches; factory 51.alpha vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "gtk_doc": "true",
+          "installed_tests": "true"
+        },
+        "factory_options": {
+          "gtk_doc": "true",
+          "installed_tests": "true"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [],
+        "same_value": [
+          {
+            "option": "gtk_doc",
+            "gbm_option": "gtk_doc",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "installed_tests",
+            "gbm_option": "installed_tests",
+            "gbm_value": "true",
+            "factory_value": "true"
+          }
+        ],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 13,
+        "factory_edges": 24,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/iso-codes.bst",
+          "freedesktop-sdk.bst:components/itstool.bst",
+          "freedesktop-sdk.bst:components/libseccomp.bst",
+          "sdk/gdk-pixbuf.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/gtk+-3.bst",
+          "sdk/gtk-doc.bst",
+          "sdk/gtk.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/libgudev.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-desktop3",
         "version": "51.alpha",
@@ -873,7 +1204,7 @@
           {
             "kind": "git_repo",
             "directory": "subprojects/qrcodegen",
-            "url": "github:nayuki/QR-Code-generator.git",
+            "url": "https://github.com/nayuki/QR-Code-generator.git",
             "ref": "8329a7108fc22be3e1eec0a9f9318978579e3621"
           }
         ],
@@ -913,6 +1244,50 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "source identity and release line aligned",
+      "auto_classification": "aligned",
+      "auto_reason": "source identity and release line aligned",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "gtk_doc": "true"
+        },
+        "factory_options": {
+          "gtk_doc": "true"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [],
+        "same_value": [
+          {
+            "option": "gtk_doc",
+            "gbm_option": "gtk_doc",
+            "gbm_value": "true",
+            "factory_value": "true"
+          }
+        ],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 13,
+        "factory_edges": 18,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/gsound.bst",
+          "freedesktop-sdk.bst:components/bluez.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gtk-doc.bst",
+          "sdk/gtk.bst",
+          "sdk/libadwaita.bst",
+          "sdk/libnotify.bst"
+        ],
+        "gbm_only": [
+          "core-deps/upower.bst",
+          "freedesktop-sdk.bst:components/bluez-libs.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/glib.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-bluetooth",
         "version": "47.2",
@@ -990,7 +1365,67 @@
       "gbm_element": "core/nautilus.bst",
       "gbm_present": true,
       "classification": "needs_review",
-      "reason": "factory carries 1 local patch(es); gbm none",
+      "reason": "factory carries 1 local patch(es); gbm none; feature options conflict: -Dselinux gbm false vs factory true",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 1 local patch(es); gbm none; feature options conflict: -Dselinux gbm false vs factory true",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "selinux": "false"
+        },
+        "factory_options": {
+          "docs": "true",
+          "extensions": "true",
+          "introspection": "true",
+          "selinux": "true",
+          "cloudproviders": "%{?with_cloudproviders:true}%{?!with_cloudproviders:false}"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "cloudproviders",
+          "docs",
+          "extensions",
+          "introspection"
+        ],
+        "same_value": [],
+        "conflicting": [
+          {
+            "option": "selinux",
+            "gbm_option": "selinux",
+            "gbm_value": "false",
+            "factory_value": "true"
+          }
+        ]
+      },
+      "dependency_comparison": {
+        "gbm_edges": 20,
+        "factory_edges": 36,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/gnome-autoar.bst",
+          "core-deps/localsearch.bst",
+          "core/gnome-desktop.bst",
+          "freedesktop-sdk.bst:components/desktop-file-utils.bst",
+          "sdk/blueprint-compiler.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/gtk.bst",
+          "sdk/libadwaita.bst",
+          "sdk/libportal.bst"
+        ],
+        "gbm_only": [
+          "core-deps/gexiv2.bst",
+          "core-deps/libcloudproviders.bst",
+          "core-deps/xdg-user-dirs-gtk.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/adwaita-icon-theme.bst",
+          "sdk/libglycin-gtk4.bst",
+          "sdk/pango.bst",
+          "sdk/tinysparql.bst"
+        ]
+      },
       "factory": {
         "name": "nautilus",
         "version": "51~beta",
@@ -1061,7 +1496,7 @@
         "secondary_sources": [
           {
             "kind": "git_repo",
-            "url": "gnome:libgxdp.git",
+            "url": "https://gitlab.gnome.org/GNOME/libgxdp.git",
             "ref": "df896e3412b749947bc6f62a91a1aac8e6b6d19b",
             "directory": "subprojects/libgxdp"
           }
@@ -1108,6 +1543,40 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "release line 1.89 (factory) vs 1.90 (gbm)",
+      "auto_classification": "needs_review",
+      "auto_reason": "release line 1.89 (factory) vs 1.90 (gbm)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "profiler": "enabled",
+          "b_pch": "false"
+        },
+        "factory_options": {},
+        "only_in_gbm": [
+          "b_pch",
+          "profiler"
+        ],
+        "only_in_factory": [],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 8,
+        "factory_edges": 20,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gtk.bst",
+          "sdk/mozjs.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/cairo.bst",
+          "freedesktop-sdk.bst:components/dbus.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/sysprof-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "gjs",
         "version": "1.89.2",
@@ -1182,7 +1651,125 @@
       "gbm_element": "sdk/gtk+-3.bst",
       "gbm_present": true,
       "classification": "needs_review",
-      "reason": "factory carries 2 local patch(es); gbm none",
+      "reason": "factory carries 2 local patch(es); gbm none; feature options conflict: -Dprofiler gbm false vs factory true",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 2 local patch(es); gbm none; feature options conflict: -Dprofiler gbm false vs factory true",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "G_ENABLE_DEBUG": "",
+          "G_DISABLE_CAST_CHECKS": "",
+          "broadway_backend": "true",
+          "installed_tests": "true",
+          "tests": "false",
+          "x11_backend": "true",
+          "wayland_backend": "true",
+          "gtk_doc": "true",
+          "man": "true",
+          "introspection": "true",
+          "tracker3": "true",
+          "profiler": "false"
+        },
+        "factory_options": {
+          "broadway_backend": "true",
+          "builtin_immodules": "wayland,waylandgtk",
+          "colord": "yes",
+          "cloudproviders": "true",
+          "gtk_doc": "true",
+          "installed_tests": "true",
+          "man": "true",
+          "profiler": "true",
+          "tracker3": "true",
+          "xinerama": "yes"
+        },
+        "only_in_gbm": [
+          "G_DISABLE_CAST_CHECKS",
+          "G_ENABLE_DEBUG",
+          "introspection",
+          "tests",
+          "wayland_backend",
+          "x11_backend"
+        ],
+        "only_in_factory": [
+          "builtin_immodules",
+          "cloudproviders",
+          "colord",
+          "xinerama"
+        ],
+        "same_value": [
+          {
+            "option": "broadway_backend",
+            "gbm_option": "broadway_backend",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "gtk_doc",
+            "gbm_option": "gtk_doc",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "installed_tests",
+            "gbm_option": "installed_tests",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "man",
+            "gbm_option": "man",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "tracker3",
+            "gbm_option": "tracker3",
+            "gbm_value": "true",
+            "factory_value": "true"
+          }
+        ],
+        "conflicting": [
+          {
+            "option": "profiler",
+            "gbm_option": "profiler",
+            "gbm_value": "false",
+            "factory_value": "true"
+          }
+        ]
+      },
+      "dependency_comparison": {
+        "gbm_edges": 24,
+        "factory_edges": 48,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/cairo.bst",
+          "freedesktop-sdk.bst:components/cups.bst",
+          "freedesktop-sdk.bst:components/hicolor-icon-theme.bst",
+          "freedesktop-sdk.bst:components/wayland-protocols.bst",
+          "sdk/gdk-pixbuf.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gtk-doc.bst",
+          "sdk/pango.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/libepoxy.bst",
+          "freedesktop-sdk.bst:components/libxkbcommon.bst",
+          "freedesktop-sdk.bst:components/mesa-headers.bst",
+          "freedesktop-sdk.bst:components/wayland.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xcomposite.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xcursor.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xdamage.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xi.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xinerama.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/at-spi2-core.bst",
+          "sdk/cantarell-fonts.bst",
+          "sdk/glycin.bst",
+          "sdk/tinysparql.bst"
+        ]
+      },
       "factory": {
         "name": "gtk3",
         "version": "3.24.52",
@@ -1318,6 +1905,98 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "release line 4.23 (factory) vs 4.24 (gbm)",
+      "auto_classification": "needs_review",
+      "auto_reason": "release line 4.23 (factory) vs 4.24 (gbm)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "broadway-backend": "true",
+          "documentation": "true",
+          "man-pages": "true",
+          "sysprof": "enabled"
+        },
+        "factory_options": {
+          "broadway-backend": "true",
+          "sysprof": "enabled",
+          "tracker": "enabled",
+          "colord": "enabled",
+          "documentation": "true",
+          "man-pages": "true",
+          "build-testsuite": "false",
+          "build-tests": "false",
+          "build-examples": "false"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "build-examples",
+          "build-tests",
+          "build-testsuite",
+          "colord",
+          "tracker"
+        ],
+        "same_value": [
+          {
+            "option": "broadway-backend",
+            "gbm_option": "broadway-backend",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "documentation",
+            "gbm_option": "documentation",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "man-pages",
+            "gbm_option": "man-pages",
+            "gbm_value": "true",
+            "factory_value": "true"
+          },
+          {
+            "option": "sysprof",
+            "gbm_option": "sysprof",
+            "gbm_value": "enabled",
+            "factory_value": "enabled"
+          }
+        ],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 26,
+        "factory_edges": 62,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/cups.bst",
+          "freedesktop-sdk.bst:components/hicolor-icon-theme.bst",
+          "freedesktop-sdk.bst:components/wayland-protocols.bst",
+          "sdk/gdk-pixbuf.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/pango.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/gstreamer-plugins-bad.bst",
+          "freedesktop-sdk.bst:components/gstreamer-plugins-base.bst",
+          "freedesktop-sdk.bst:components/gstreamer.bst",
+          "freedesktop-sdk.bst:components/libepoxy.bst",
+          "freedesktop-sdk.bst:components/libxkbcommon.bst",
+          "freedesktop-sdk.bst:components/python3-docutils.bst",
+          "freedesktop-sdk.bst:components/shaderc.bst",
+          "freedesktop-sdk.bst:components/vulkan-headers.bst",
+          "freedesktop-sdk.bst:components/vulkan-icd-loader.bst",
+          "freedesktop-sdk.bst:components/wayland.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk-deps/sassc.bst",
+          "sdk/at-spi2-core.bst",
+          "sdk/glycin.bst",
+          "sdk/graphene.bst",
+          "sdk/pygobject.bst",
+          "sdk/sysprof-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "gtk4",
         "version": "4.23.3",
@@ -1463,6 +2142,45 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "factory carries 1 local patch(es); gbm none",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 1 local patch(es); gbm none",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "profiling": "true",
+          "gtk_doc": "true"
+        },
+        "factory_options": {
+          "documentation": "true"
+        },
+        "only_in_gbm": [
+          "gtk_doc",
+          "profiling"
+        ],
+        "only_in_factory": [
+          "documentation"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 9,
+        "factory_edges": 16,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gtk.bst",
+          "sdk/vala.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk-deps/sassc.bst",
+          "sdk/ministream.bst",
+          "sdk/sysprof-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "libadwaita",
         "version": "1.10.beta.1",
@@ -1539,6 +2257,68 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "factory carries 1 local patch(es); gbm none",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 1 local patch(es); gbm none",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "gtk_doc": "true",
+          "man": "false",
+          "builtin_loaders": "glycin",
+          "thumbnailer": "disabled",
+          "png": "disabled",
+          "tiff": "disabled",
+          "jpeg": "disabled",
+          "gif": "disabled",
+          "android": "disabled",
+          "tests": "false"
+        },
+        "factory_options": {
+          "documentation": "true",
+          "introspection": "enabled",
+          "glycin": "enabled",
+          "legacy_xpm": "enabled"
+        },
+        "only_in_gbm": [
+          "android",
+          "builtin_loaders",
+          "gif",
+          "gtk_doc",
+          "jpeg",
+          "man",
+          "png",
+          "tests",
+          "thumbnailer",
+          "tiff"
+        ],
+        "only_in_factory": [
+          "documentation",
+          "glycin",
+          "introspection",
+          "legacy_xpm"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 10,
+        "factory_edges": 15,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/shared-mime-info.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/gobject-introspection.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/jpeg.bst",
+          "freedesktop-sdk.bst:components/libpng.bst",
+          "freedesktop-sdk.bst:components/libtiff.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/glib.bst",
+          "sdk/libglycin.bst"
+        ]
+      },
       "factory": {
         "name": "gdk-pixbuf2",
         "version": "2.44.8",
@@ -1618,6 +2398,53 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "source identity and release line aligned",
+      "auto_classification": "aligned",
+      "auto_reason": "source identity and release line aligned",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "gtk_doc": "true",
+          "xft": "disabled"
+        },
+        "factory_options": {
+          "build-testsuite": "true",
+          "build-examples": "true",
+          "documentation": "true"
+        },
+        "only_in_gbm": [
+          "gtk_doc",
+          "xft"
+        ],
+        "only_in_factory": [
+          "build-examples",
+          "build-testsuite",
+          "documentation"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 13,
+        "factory_edges": 28,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/cairo.bst",
+          "freedesktop-sdk.bst:components/fontconfig.bst",
+          "freedesktop-sdk.bst:components/fribidi.bst",
+          "freedesktop-sdk.bst:components/harfbuzz.bst",
+          "freedesktop-sdk.bst:components/libthai.bst",
+          "freedesktop-sdk.bst:components/python3-docutils.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/xorg-lib-xft.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/json-glib.bst"
+        ]
+      },
       "factory": {
         "name": "pango",
         "version": "1.58.2",
@@ -1710,6 +2537,77 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "factory carries 1 local patch(es); gbm none",
+      "auto_classification": "needs_review",
+      "auto_reason": "factory carries 1 local patch(es); gbm none",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "spectre": "disabled",
+          "symbol-lookup": "disabled",
+          "tests": "disabled"
+        },
+        "factory_options": {
+          "freetype": "enabled",
+          "fontconfig": "enabled",
+          "glib": "enabled",
+          "gtk_doc": "true",
+          "spectre": "disabled",
+          "symbol-lookup": "disabled",
+          "tee": "enabled",
+          "tests": "disabled",
+          "xcb": "enabled",
+          "xlib": "enabled"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "fontconfig",
+          "freetype",
+          "glib",
+          "gtk_doc",
+          "tee",
+          "xcb",
+          "xlib"
+        ],
+        "same_value": [
+          {
+            "option": "spectre",
+            "gbm_option": "spectre",
+            "gbm_value": "disabled",
+            "factory_value": "disabled"
+          },
+          {
+            "option": "symbol-lookup",
+            "gbm_option": "symbol-lookup",
+            "gbm_value": "disabled",
+            "factory_value": "disabled"
+          },
+          {
+            "option": "tests",
+            "gbm_option": "tests",
+            "gbm_value": "disabled",
+            "factory_value": "disabled"
+          }
+        ],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 9,
+        "factory_edges": 18,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/fontconfig.bst",
+          "freedesktop-sdk.bst:components/freetype.bst",
+          "freedesktop-sdk.bst:components/lzo.bst",
+          "freedesktop-sdk.bst:components/pixman.bst",
+          "sdk/gtk-doc.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/xorg-lib-x11.bst",
+          "freedesktop-sdk.bst:components/xorg-lib-xext.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "cairo",
         "version": "1.18.4",
@@ -1797,6 +2695,49 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "release line 2.62 (factory) vs 2.63 (gbm); factory carries 3 local patch(es); gbm none",
+      "auto_classification": "needs_review",
+      "auto_reason": "release line 2.62 (factory) vs 2.63 (gbm); factory carries 3 local patch(es); gbm none",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "pkgconfig.relocatable": "false",
+          "pixbuf-loader": "disabled"
+        },
+        "factory_options": {
+          "avif": "disabled"
+        },
+        "only_in_gbm": [
+          "pixbuf-loader",
+          "pkgconfig.relocatable"
+        ],
+        "only_in_factory": [
+          "avif"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 13,
+        "factory_edges": 23,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/cairo.bst",
+          "freedesktop-sdk.bst:components/cargo-c.bst",
+          "sdk/gdk-pixbuf.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/vala.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/dav1d.bst",
+          "freedesktop-sdk.bst:components/python3-docutils.bst",
+          "freedesktop-sdk.bst:components/rust.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/pango.bst"
+        ]
+      },
       "factory": {
         "name": "librsvg2",
         "version": "2.62.3",
@@ -3995,6 +4936,30 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 51 matches; factory 51.beta vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {},
+        "factory_options": {},
+        "only_in_gbm": [],
+        "only_in_factory": [],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 4,
+        "factory_edges": 6,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "gsettings-desktop-schemas",
         "version": "51.beta",
@@ -4049,6 +5014,49 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 2.90 matches; factory 2.90~alpha vs gbm 2.90.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 2.90 matches; factory 2.90~alpha vs gbm 2.90.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "installed_tests": "true"
+        },
+        "factory_options": {
+          "libproxy": "disabled",
+          "environment_proxy": "enabled",
+          "installed_tests": "true"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "environment_proxy",
+          "libproxy"
+        ],
+        "same_value": [
+          {
+            "option": "installed_tests",
+            "gbm_option": "installed_tests",
+            "gbm_value": "true",
+            "factory_value": "true"
+          }
+        ],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 7,
+        "factory_edges": 15,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "freedesktop-sdk.bst:components/ca-certificates.bst",
+          "freedesktop-sdk.bst:components/gnutls.bst",
+          "freedesktop-sdk.bst:components/libproxy.bst",
+          "sdk/glib.bst",
+          "sdk/gsettings-desktop-schemas.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "glib-networking",
         "version": "2.90~alpha",
@@ -4120,6 +5128,80 @@
       "gbm_present": true,
       "classification": "needs_review",
       "reason": "release line 1.61 (factory) vs 1.62 (gbm)",
+      "auto_classification": "needs_review",
+      "auto_reason": "release line 1.61 (factory) vs 1.62 (gbm)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "google": "false"
+        },
+        "factory_options": {
+          "man": "true",
+          "afc": "false",
+          "gphoto2": "false",
+          "libusb": "false",
+          "mtp": "false",
+          "bluray": "false",
+          "nfs": "false",
+          "onedrive": "false",
+          "gcrypt": "false",
+          "cdda": "false"
+        },
+        "only_in_gbm": [
+          "google"
+        ],
+        "only_in_factory": [
+          "afc",
+          "bluray",
+          "cdda",
+          "gcrypt",
+          "gphoto2",
+          "libusb",
+          "man",
+          "mtp",
+          "nfs",
+          "onedrive"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 28,
+        "factory_edges": 43,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/libbluray.bst",
+          "core-deps/libgphoto2.bst",
+          "core-deps/libimobiledevice.bst",
+          "core-deps/libmtp.bst",
+          "core-deps/libnfs.bst",
+          "core-deps/libplist.bst",
+          "core-deps/msgraph.bst",
+          "core-deps/udisks2.bst",
+          "freedesktop-sdk.bst:components/dbus.bst",
+          "freedesktop-sdk.bst:components/fuse3.bst",
+          "freedesktop-sdk.bst:components/libusb.bst",
+          "freedesktop-sdk.bst:components/polkit.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "sdk/gcr.bst",
+          "sdk/glib.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/libsecret.bst",
+          "sdk/libsoup.bst"
+        ],
+        "gbm_only": [
+          "core-deps/gnome-online-accounts.bst",
+          "core-deps/libcdio-paranoia.bst",
+          "core-deps/samba.bst",
+          "freedesktop-sdk.bst:components/avahi.bst",
+          "freedesktop-sdk.bst:components/libarchive.bst",
+          "freedesktop-sdk.bst:components/libgudev.bst",
+          "freedesktop-sdk.bst:components/openssh.bst",
+          "freedesktop-sdk.bst:components/systemd-libs.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "gvfs",
         "version": "1.61.91",
@@ -4246,6 +5328,52 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "gbm element is a filter aggregating shared sources; membership aligned (no independent source identity to compare)",
+      "auto_classification": "aligned",
+      "auto_reason": "gbm element is a filter aggregating shared sources; membership aligned (no independent source identity to compare)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {},
+        "factory_options": {
+          "man": "true",
+          "afc": "false",
+          "gphoto2": "false",
+          "libusb": "false",
+          "mtp": "false",
+          "bluray": "false",
+          "nfs": "false",
+          "onedrive": "false",
+          "gcrypt": "false",
+          "cdda": "false"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "afc",
+          "bluray",
+          "cdda",
+          "gcrypt",
+          "gphoto2",
+          "libusb",
+          "man",
+          "mtp",
+          "nfs",
+          "onedrive"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 4,
+        "factory_edges": 43,
+        "matched_in_factory": [
+          "sdk/glib.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk-deps/gvfs-manifest.bst",
+          "sdk-deps/gvfs.bst"
+        ]
+      },
       "factory": {
         "name": "gvfs",
         "version": "1.61.91",
@@ -4339,6 +5467,76 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "gbm element is a filter aggregating shared sources; membership aligned (no independent source identity to compare)",
+      "auto_classification": "aligned",
+      "auto_reason": "gbm element is a filter aggregating shared sources; membership aligned (no independent source identity to compare)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {},
+        "factory_options": {
+          "man": "true",
+          "afc": "false",
+          "gphoto2": "false",
+          "libusb": "false",
+          "mtp": "false",
+          "bluray": "false",
+          "nfs": "false",
+          "onedrive": "false",
+          "gcrypt": "false",
+          "cdda": "false"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "afc",
+          "bluray",
+          "cdda",
+          "gcrypt",
+          "gphoto2",
+          "libusb",
+          "man",
+          "mtp",
+          "nfs",
+          "onedrive"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 28,
+        "factory_edges": 43,
+        "matched_in_factory": [
+          "core-deps/libbluray.bst",
+          "core-deps/libgphoto2.bst",
+          "core-deps/libimobiledevice.bst",
+          "core-deps/libmtp.bst",
+          "core-deps/libnfs.bst",
+          "core-deps/libplist.bst",
+          "core-deps/msgraph.bst",
+          "core-deps/udisks2.bst",
+          "freedesktop-sdk.bst:components/dbus.bst",
+          "freedesktop-sdk.bst:components/fuse3.bst",
+          "freedesktop-sdk.bst:components/libusb.bst",
+          "freedesktop-sdk.bst:components/polkit.bst",
+          "sdk/gcr.bst",
+          "sdk/glib.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/libsecret.bst",
+          "sdk/libsoup.bst"
+        ],
+        "gbm_only": [
+          "core-deps/gnome-online-accounts.bst",
+          "core-deps/libcdio-paranoia.bst",
+          "core-deps/samba.bst",
+          "freedesktop-sdk.bst:components/avahi.bst",
+          "freedesktop-sdk.bst:components/libarchive.bst",
+          "freedesktop-sdk.bst:components/libgudev.bst",
+          "freedesktop-sdk.bst:components/openssh.bst",
+          "freedesktop-sdk.bst:components/systemd-libs.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk-deps/gvfs.bst",
+          "sdk/gvfs-client.bst"
+        ]
+      },
       "factory": {
         "name": "gvfs",
         "version": "1.61.91",
@@ -4456,6 +5654,50 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "source identity and release line aligned",
+      "auto_classification": "aligned",
+      "auto_reason": "source identity and release line aligned",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {},
+        "factory_options": {
+          "goabackend": "false",
+          "documentation": "false",
+          "man": "false",
+          "fedora": "true"
+        },
+        "only_in_gbm": [],
+        "only_in_factory": [
+          "documentation",
+          "fedora",
+          "goabackend",
+          "man"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 14,
+        "factory_edges": 28,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "sdk/gcr.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/gtk.bst",
+          "sdk/json-glib.bst",
+          "sdk/libsecret.bst",
+          "sdk/libsoup.bst",
+          "sdk/vala.bst"
+        ],
+        "gbm_only": [
+          "core-deps/librest.bst",
+          "freedesktop-sdk.bst:components/docbook-xsl.bst",
+          "freedesktop-sdk.bst:components/keyutils.bst",
+          "freedesktop-sdk.bst:components/libxslt.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/gi-docgen.bst"
+        ]
+      },
       "factory": {
         "name": "gnome-online-accounts",
         "version": "3.58.1",
@@ -4545,7 +5787,132 @@
       "gbm_element": "core-deps/evolution-data-server.bst",
       "gbm_present": true,
       "classification": "needs_review",
-      "reason": "release line 3.61 (factory) vs 3.62 (gbm); factory carries 1 local patch(es); gbm none",
+      "reason": "release line 3.61 (factory) vs 3.62 (gbm); factory carries 1 local patch(es); gbm none; feature options conflict: -DENABLE_OAUTH2_WEBKITGTK gbm OFF vs factory ON",
+      "auto_classification": "needs_review",
+      "auto_reason": "release line 3.61 (factory) vs 3.62 (gbm); factory carries 1 local patch(es); gbm none; feature options conflict: -DENABLE_OAUTH2_WEBKITGTK gbm OFF vs factory ON",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "LIB_INSTALL_DIR": "%{libdir}",
+          "SYSCONF_INSTALL_DIR": "%{sysconfdir}",
+          "ENABLE_GTK": "ON",
+          "ENABLE_OAUTH2_WEBKITGTK": "OFF",
+          "ENABLE_GTK4": "ON",
+          "ENABLE_INTROSPECTION": "ON",
+          "ENABLE_VALA_BINDINGS": "ON",
+          "ENABLE_UOA": "OFF",
+          "ENABLE_GOOGLE_AUTH": "OFF",
+          "WITH_GWEATHER4": "ON",
+          "WITH_LIBDB": "OFF",
+          "ENABLE_GOOGLE": "OFF"
+        },
+        "factory_options": {
+          "ENABLE_MAINTAINER_MODE": "OFF",
+          "ENABLE_FILE_LOCKING": "fcntl",
+          "ENABLE_DOT_LOCKING": "OFF",
+          "ENABLE_INTROSPECTION": "ON",
+          "ENABLE_VALA_BINDINGS": "ON",
+          "ENABLE_INSTALLED_TESTS": "ON",
+          "WITH_LIBDB": "OFF",
+          "WITH_SYSTEMDUSERUNITDIR": "%{_userunitdir}",
+          "INCLUDE_INSTALL_DIR:PATH": "%{_includedir}",
+          "LIB_INSTALL_DIR:PATH": "%{_libdir}",
+          "SYSCONF_INSTALL_DIR:PATH": "%{_sysconfdir}",
+          "SHARE_INSTALL_PREFIX:PATH": "%{_datadir}",
+          "LIB_SUFFIX": "64",
+          "WITH_OPENLDAP": "ON",
+          "WITH_STATIC_LDAP": "ON",
+          "WITH_KRB5": "ON",
+          "ENABLE_SMIME": "ON",
+          "ENABLE_OAUTH2_WEBKITGTK": "ON",
+          "ENABLE_OAUTH2_WEBKITGTK4": "ON",
+          "ENABLE_LARGEFILE": "ON",
+          "ENABLE_GTK_DOC": "ON",
+          "WITH_PHONENUMBER": "ON"
+        },
+        "only_in_gbm": [
+          "ENABLE_GOOGLE",
+          "ENABLE_GOOGLE_AUTH",
+          "ENABLE_GTK",
+          "ENABLE_GTK4",
+          "ENABLE_UOA",
+          "LIB_INSTALL_DIR",
+          "SYSCONF_INSTALL_DIR",
+          "WITH_GWEATHER4"
+        ],
+        "only_in_factory": [
+          "ENABLE_DOT_LOCKING",
+          "ENABLE_FILE_LOCKING",
+          "ENABLE_GTK_DOC",
+          "ENABLE_INSTALLED_TESTS",
+          "ENABLE_LARGEFILE",
+          "ENABLE_MAINTAINER_MODE",
+          "ENABLE_OAUTH2_WEBKITGTK4",
+          "ENABLE_SMIME",
+          "LIB_SUFFIX",
+          "SHARE_INSTALL_PREFIX:PATH",
+          "WITH_KRB5",
+          "WITH_OPENLDAP",
+          "WITH_PHONENUMBER",
+          "WITH_STATIC_LDAP",
+          "WITH_SYSTEMDUSERUNITDIR"
+        ],
+        "same_value": [
+          {
+            "option": "ENABLE_INTROSPECTION",
+            "gbm_option": "ENABLE_INTROSPECTION",
+            "gbm_value": "ON",
+            "factory_value": "ON"
+          },
+          {
+            "option": "ENABLE_VALA_BINDINGS",
+            "gbm_option": "ENABLE_VALA_BINDINGS",
+            "gbm_value": "ON",
+            "factory_value": "ON"
+          },
+          {
+            "option": "WITH_LIBDB",
+            "gbm_option": "WITH_LIBDB",
+            "gbm_value": "OFF",
+            "factory_value": "OFF"
+          }
+        ],
+        "conflicting": [
+          {
+            "option": "ENABLE_OAUTH2_WEBKITGTK",
+            "gbm_option": "ENABLE_OAUTH2_WEBKITGTK",
+            "gbm_value": "OFF",
+            "factory_value": "ON"
+          }
+        ]
+      },
+      "dependency_comparison": {
+        "gbm_edges": 18,
+        "factory_edges": 49,
+        "matched_in_factory": [
+          "buildsystems/cmake.bst",
+          "core-deps/openldap.bst",
+          "freedesktop-sdk.bst:components/gperf.bst",
+          "freedesktop-sdk.bst:components/nspr.bst",
+          "freedesktop-sdk.bst:components/nss.bst",
+          "sdk/gtk+-3.bst",
+          "sdk/gtk.bst",
+          "sdk/libsoup.bst",
+          "sdk/vala.bst",
+          "sdk/webkitgtk-6.0.bst"
+        ],
+        "gbm_only": [
+          "core-deps/gnome-online-accounts.bst",
+          "core-deps/libcanberra.bst",
+          "core-deps/libgweather.bst",
+          "freedesktop-sdk.bst:components/libical.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/gcr.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/libsecret.bst"
+        ]
+      },
       "factory": {
         "name": "evolution-data-server",
         "version": "3.61.3",
@@ -4683,6 +6050,82 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 3.12 matches; factory 3.12~beta vs gbm 3.12.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 3.12 matches; factory 3.12~beta vs gbm 3.12.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "iptc": "disabled"
+        },
+        "factory_options": {
+          "writeback": "false",
+          "systemd_user_services": "false",
+          "iso": "disabled",
+          "battery_detection": "none",
+          "domain_prefix": "%{domain_ontology}",
+          "cue": "disabled",
+          "libav": "disabled",
+          "libmediainfo": "disabled",
+          "systemd_user_services_dir": "%{_userunitdir}",
+          "playlist": "disabled"
+        },
+        "only_in_gbm": [
+          "iptc"
+        ],
+        "only_in_factory": [
+          "battery_detection",
+          "cue",
+          "domain_prefix",
+          "iso",
+          "libav",
+          "libmediainfo",
+          "playlist",
+          "systemd_user_services",
+          "systemd_user_services_dir",
+          "writeback"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 30,
+        "factory_edges": 37,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core-deps/exempi.bst",
+          "core-deps/libcue.bst",
+          "core-deps/libgsf.bst",
+          "core-deps/libgxps.bst",
+          "core-deps/libmediainfo.bst",
+          "core-deps/libosinfo.bst",
+          "core-deps/libzip.bst",
+          "freedesktop-sdk.bst:components/asciidoc.bst",
+          "freedesktop-sdk.bst:components/gstreamer.bst",
+          "freedesktop-sdk.bst:components/libexif.bst",
+          "freedesktop-sdk.bst:components/libseccomp.bst",
+          "sdk/tinysparql.bst"
+        ],
+        "gbm_only": [
+          "core-deps/NetworkManager.bst",
+          "core-deps/dconf.bst",
+          "core-deps/gexiv2.bst",
+          "core-deps/python-dbusmock.bst",
+          "core-deps/totem-pl-parser.bst",
+          "core-deps/upower.bst",
+          "freedesktop-sdk.bst:components/docbook-xsl.bst",
+          "freedesktop-sdk.bst:components/libflac.bst",
+          "freedesktop-sdk.bst:components/libwebp.bst",
+          "freedesktop-sdk.bst:components/libxslt.bst",
+          "freedesktop-sdk.bst:components/openjpeg.bst",
+          "freedesktop-sdk.bst:components/poppler.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/gdk-pixbuf.bst",
+          "sdk/glib.bst",
+          "sdk/libsecret.bst"
+        ]
+      },
       "factory": {
         "name": "localsearch",
         "version": "3.12~beta",
@@ -4805,6 +6248,48 @@
       "gbm_present": true,
       "classification": "unmapped",
       "reason": "factory source not present in config/upstream-sources.json",
+      "auto_classification": "unmapped",
+      "auto_reason": "factory source not present in config/upstream-sources.json",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "avahi": "disabled",
+          "unicode_support": "icu",
+          "stemmer": "disabled"
+        },
+        "factory_options": {},
+        "only_in_gbm": [
+          "avahi",
+          "stemmer",
+          "unicode_support"
+        ],
+        "only_in_factory": [],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 15,
+        "factory_edges": 0,
+        "matched_in_factory": [],
+        "gbm_only": [
+          "buildsystems/meson.bst",
+          "core-deps/graphviz.bst",
+          "freedesktop-sdk.bst:components/asciidoc.bst",
+          "freedesktop-sdk.bst:components/dbus.bst",
+          "freedesktop-sdk.bst:components/icu.bst",
+          "freedesktop-sdk.bst:components/systemd-libs.bst",
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/glib.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/json-glib.bst",
+          "sdk/libsoup.bst",
+          "sdk/pygobject.bst",
+          "sdk/vala.bst"
+        ]
+      },
       "factory": {
         "name": null,
         "version": null,
@@ -4827,7 +6312,7 @@
         "secondary_sources": [
           {
             "kind": "remote",
-            "url": "snowballstem:libstemmer_c-3.0.1.tar.gz",
+            "url": "https://snowballstem.org/dist/libstemmer_c-3.0.1.tar.gz",
             "ref": "419db89961cf2e30e6417265a4f3c903632d47d6917e7f8c6ae0e4d998743aad",
             "directory": "subprojects/packagecache"
           }
@@ -4868,6 +6353,42 @@
       "gbm_present": true,
       "classification": "aligned",
       "reason": "release line 51 matches; factory 51.alpha vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "auto_classification": "aligned",
+      "auto_reason": "release line 51 matches; factory 51.alpha vs gbm 51.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification_override": null,
+      "notes": [],
+      "feature_comparison": {
+        "gbm_options": {
+          "libgxdp:tests": "false"
+        },
+        "factory_options": {
+          "systemduserunitdir": "%{_userunitdir}"
+        },
+        "only_in_gbm": [
+          "libgxdp:tests"
+        ],
+        "only_in_factory": [
+          "systemduserunitdir"
+        ],
+        "same_value": [],
+        "conflicting": []
+      },
+      "dependency_comparison": {
+        "gbm_edges": 8,
+        "factory_edges": 15,
+        "matched_in_factory": [
+          "buildsystems/meson.bst",
+          "core/gnome-desktop.bst",
+          "freedesktop-sdk.bst:components/xdg-desktop-portal.bst",
+          "sdk/gsettings-desktop-schemas.bst",
+          "sdk/gtk.bst",
+          "sdk/libadwaita.bst"
+        ],
+        "gbm_only": [
+          "freedesktop-sdk.bst:components/systemd.bst",
+          "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
+        ]
+      },
       "factory": {
         "name": "xdg-desktop-portal-gnome",
         "version": "51.alpha",
@@ -4911,7 +6432,7 @@
         "secondary_sources": [
           {
             "kind": "git_repo",
-            "url": "gnome:libgxdp.git",
+            "url": "https://gitlab.gnome.org/GNOME/libgxdp.git",
             "directory": "subprojects/libgxdp",
             "ref": "df896e3412b749947bc6f62a91a1aac8e6b6d19b"
           }
