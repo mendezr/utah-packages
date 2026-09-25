@@ -626,8 +626,8 @@ def build_report(pin: dict, loader: Loader, aliases: dict,
     alias = pin.get("factory_alias", {}) or {}
     entries = []
     for rpm, elem_path in mapping.items():
-        # Subpackages (gvfs-client, gvfs-daemon) and rename aliases (tinysparql)
-        # resolve to a real factory source registry name.
+        # Subpackages (gvfs-client, gvfs-daemon) resolve to a real factory
+        # source registry name.
         factory_name = alias.get(rpm, rpm)
         pkg = factory_sources.get(factory_name)
         notes: list[str] = []
@@ -885,7 +885,7 @@ def _verify_checkout(loader: Loader, commit: str) -> str:
             ["git", "-C", str(loader.root), "rev-parse", "HEAD"],
             capture_output=True, text=True, check=True,
         )
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, OSError):
         raise SystemExit(
             f"gnome-build-meta checkout at {loader.root} is not a git repository. "
             f"Pass --no-verify to audit an exported snapshot, or clone the pinned commit "

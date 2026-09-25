@@ -433,6 +433,24 @@ class FailClosedTests(unittest.TestCase):
                 _verify_checkout(loader, "a50b8c9de35f51c6a646c8178cde3c2c176725b6")
             self.assertIn("not a git repository", str(cm.exception))
 
+    def test_missing_git_binary_fails_closed(self) -> None:
+        from tools.audit_gnome_build_meta import _verify_checkout, Loader
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            loader = Loader(root)
+            original_run = subprocess.run
+
+            def no_git(*args, **kwargs):
+                raise FileNotFoundError(2, "No such file or directory: 'git'")
+
+            subprocess.run = no_git
+            try:
+                with self.assertRaises(SystemExit) as cm:
+                    _verify_checkout(loader, "a50b8c9de35f51c6a646c8178cde3c2c176725b6")
+            finally:
+                subprocess.run = original_run
+            self.assertIn("--no-verify", str(cm.exception))
+
     def test_non_git_checkout_passes_with_no_verify(self) -> None:
         # main() with --no-verify should allow an exported snapshot.
         import json as _json
@@ -751,6 +769,20 @@ class MergeTests(unittest.TestCase):
             self.assertEqual(merged["variables"]["b"], "2")
             self.assertIn("y.bst", merged["depends"])
             self.assertIn("x.bst", merged["depends"])
+
+
+class PinConfigTests(unittest.TestCase):
+    """config/gnome-build-meta.json must map distinct GNOME modules distinctly."""
+
+    def test_tinysparql_is_not_aliased_to_localsearch(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        pin = json.loads((repo_root / "config/gnome-build-meta.json").read_text())
+        # tinysparql (ex-tracker) and localsearch (ex-tracker-miners) are
+        # separate modules; aliasing them would compare localsearch against
+        # itself and report a comparison that never happened.
+        self.assertNotIn("tinysparql", pin.get("factory_alias", {}))
+        self.assertEqual(pin["mapping"]["tinysparql"], "sdk/tinysparql.bst")
+        self.assertEqual(pin["mapping"]["localsearch"], "core-deps/localsearch.bst")
 
 
 if __name__ == "__main__":

@@ -13,8 +13,7 @@
   },
   "factory_alias": {
     "gvfs-client": "gvfs",
-    "gvfs-daemon": "gvfs",
-    "tinysparql": "localsearch"
+    "gvfs-daemon": "gvfs"
   },
   "mapping": {
     "mutter": "core/mutter.bst",
@@ -41,7 +40,7 @@
     "gnome-online-accounts": "core-deps/gnome-online-accounts.bst",
     "evolution-data-server": "core-deps/evolution-data-server.bst",
     "localsearch": "core-deps/localsearch.bst",
-    "tinysparql": "core-deps/localsearch.bst",
+    "tinysparql": "sdk/tinysparql.bst",
     "xdg-desktop-portal-gnome": "core-deps/xdg-desktop-portal-gnome.bst"
   },
   "unmapped": [

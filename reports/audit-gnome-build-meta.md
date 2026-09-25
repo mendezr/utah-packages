@@ -1,14 +1,15 @@
 # GNOME recipes vs gnome-build-meta audit
 
 - GNOME release: `51.0` @ `a50b8c9de35f51c6a646c8178cde3c2c176725b6`
-- factory revision audited: `31ae9b617041664925f80d315b05d6606483a116`
+- factory revision audited: `bbe9346727f137c7a8dccfa20aa0e1bd9cbc5bd3`
 
 Every difference is classified, not treated as an automatic defect. `needs_review` entries carry evidence for a human to re-classify as intentional Fedora/RPM integration, intentional Hummingbird/downstream policy, or actionable drift.
 
 ## Summary
 
-- **aligned**: 14
+- **aligned**: 13
 - **needs_review**: 12
+- **unmapped**: 1
 
 ## GNOME-owned factory sources not mapped
 
@@ -301,15 +302,14 @@ Every difference is classified, not treated as an automatic defect. `needs_revie
 - Feature options: see JSON report for the full diff.
 - GBM dependency edges: 30
 
-## tinysparql → `core-deps/localsearch.bst`
+## tinysparql → `sdk/tinysparql.bst`
 
-- Classification: **aligned**
-- Reason: release line 3.12 matches; factory 3.12~beta vs gbm 3.12.0 (factory tracks the dev/rawhide bump within the same line)
+- Classification: **unmapped**
+- Reason: factory source not present in config/upstream-sources.json
 
-- Factory version: `3.12~beta`
-- GBM primary source: `https://download.gnome.org/sources/localsearch/3.12/localsearch-3.12.0.tar.xz`
+- GBM primary source: `https://download.gnome.org/sources/tinysparql/3.12/tinysparql-3.12.0.tar.xz`
 - Feature options: see JSON report for the full diff.
-- GBM dependency edges: 30
+- GBM dependency edges: 15
 
 ## xdg-desktop-portal-gnome → `core-deps/xdg-desktop-portal-gnome.bst`
 

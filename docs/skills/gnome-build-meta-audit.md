@@ -34,8 +34,7 @@ packaging and not a one-time spreadsheet.
   `librsvg2 -> sdk/librsvg.bst`, and the GVfs split
   `gvfs* -> sdk-deps/gvfs.bst|sdk/gvfs-client.bst|core/gvfs-daemon.bst`.
 - `factory_alias` — subpackages/renames that resolve to a real factory source
-  registry name (`gvfs-client`, `gvfs-daemon` -> `gvfs`; `tinysparql` ->
-  `localsearch`).
+  registry name (`gvfs-client`, `gvfs-daemon` -> `gvfs`).
 - `unmapped` — GNOME-owned or GNOME-tangential factory sources deliberately
   out of scope, each with the reason it is not mapped. Every GNOME-owned
   factory source must be either mapped or listed here: the report's

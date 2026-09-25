@@ -3,7 +3,7 @@
   "generated_for": {
     "release_tag": "51.0",
     "release_commit": "a50b8c9de35f51c6a646c8178cde3c2c176725b6",
-    "factory_base": "31ae9b617041664925f80d315b05d6606483a116"
+    "factory_base": "bbe9346727f137c7a8dccfa20aa0e1bd9cbc5bd3"
   },
   "unmapped_factory_sources": [
     {
@@ -4801,118 +4801,59 @@
     },
     {
       "rpm_name": "tinysparql",
-      "gbm_element": "core-deps/localsearch.bst",
+      "gbm_element": "sdk/tinysparql.bst",
       "gbm_present": true,
-      "classification": "aligned",
-      "reason": "release line 3.12 matches; factory 3.12~beta vs gbm 3.12.0 (factory tracks the dev/rawhide bump within the same line)",
+      "classification": "unmapped",
+      "reason": "factory source not present in config/upstream-sources.json",
       "factory": {
-        "name": "localsearch",
-        "version": "3.12~beta",
-        "filename": "localsearch-3.12.beta.tar.xz",
+        "name": null,
+        "version": null,
+        "filename": null,
         "patches": [],
-        "features": {
-          "writeback": "false",
-          "systemd_user_services": "false",
-          "iso": "disabled",
-          "battery_detection": "none",
-          "domain_prefix": "%{domain_ontology}",
-          "cue": "disabled",
-          "libav": "disabled",
-          "libmediainfo": "disabled",
-          "systemd_user_services_dir": "%{_userunitdir}",
-          "playlist": "disabled"
-        },
-        "source_urls": [
-          "https://download.gnome.org/sources/%{name}/%{gnome_major_minor_version}/%{name}-%{gnome_tarball_version}.tar.xz"
-        ],
-        "build_requires": [
-          "asciidoc",
-          "gcc",
-          "gcc-c++",
-          "giflib-devel",
-          "meson",
-          "pkgconfig(dbus-1)",
-          "pkgconfig(enca)",
-          "pkgconfig(exempi-2.0)",
-          "pkgconfig(flac)",
-          "pkgconfig(gexiv2-0.16)",
-          "pkgconfig(gobject-introspection-1.0)",
-          "pkgconfig(gstreamer-1.0)",
-          "pkgconfig(gstreamer-pbutils-1.0)",
-          "pkgconfig(gstreamer-tag-1.0)",
-          "pkgconfig(icu-i18n)",
-          "pkgconfig(icu-uc)",
-          "pkgconfig(libavformat)",
-          "pkgconfig(libcue)",
-          "pkgconfig(libexif)",
-          "pkgconfig(libgsf-1)",
-          "pkgconfig(libgxps)",
-          "pkgconfig(libjpeg)",
-          "pkgconfig(libmediainfo)",
-          "pkgconfig(libnm)",
-          "pkgconfig(libosinfo-1.0)",
-          "pkgconfig(libpng)",
-          "pkgconfig(libseccomp)",
-          "pkgconfig(libtiff-4)",
-          "pkgconfig(libxml-2.0)",
-          "pkgconfig(libzip)",
-          "pkgconfig(poppler-glib)",
-          "pkgconfig(tinysparql-3.0)",
-          "pkgconfig(totem-plparser)",
-          "pkgconfig(upower-glib)",
-          "pkgconfig(vorbisfile)",
-          "python3-dbusmock",
-          "systemd-rpm-macros"
-        ],
+        "features": {},
+        "source_urls": [],
+        "build_requires": [],
         "requires": []
       },
       "gnome_build_meta": {
         "kind": "meson",
         "primary_source": {
           "kind": "tar",
-          "url": "https://download.gnome.org/sources/localsearch/3.12/localsearch-3.12.0.tar.xz",
-          "ref": "4bf45440ce7a899f2eca4d20343d31fc620fa2a3fe53bb929de244305330e930",
+          "url": "https://download.gnome.org/sources/tinysparql/3.12/tinysparql-3.12.0.tar.xz",
+          "ref": "40e3e3ae9811ae07a94ac7dfe8259f218679ebb1c9bc98d7ab345b2405926b57",
           "directory": null,
           "track": null
         },
-        "secondary_sources": [],
+        "secondary_sources": [
+          {
+            "kind": "remote",
+            "url": "snowballstem:libstemmer_c-3.0.1.tar.gz",
+            "ref": "419db89961cf2e30e6417265a4f3c903632d47d6917e7f8c6ae0e4d998743aad",
+            "directory": "subprojects/packagecache"
+          }
+        ],
         "patches": [],
         "features": {
-          "meson-local": "-Diptc=disabled"
+          "meson-local": "-Davahi=disabled -Dunicode_support=icu -Dstemmer=disabled"
         },
         "build_depends": [
           "buildsystems/meson.bst",
-          "core-deps/libmediainfo.bst",
-          "core-deps/python-dbusmock.bst",
+          "core-deps/graphviz.bst",
+          "sdk/gi-docgen.bst",
+          "sdk/gobject-introspection.bst",
+          "sdk/vala.bst",
+          "sdk/pygobject.bst",
           "freedesktop-sdk.bst:components/asciidoc.bst",
-          "freedesktop-sdk.bst:components/docbook-xsl.bst",
-          "freedesktop-sdk.bst:components/libxslt.bst",
           "freedesktop-sdk.bst:components/systemd.bst"
         ],
         "runtime_depends": [],
         "depends": [
-          "core-deps/NetworkManager.bst",
-          "core-deps/dconf.bst",
-          "core-deps/exempi.bst",
-          "core-deps/gexiv2.bst",
-          "core-deps/libcue.bst",
-          "core-deps/libgsf.bst",
-          "core-deps/libgxps.bst",
-          "core-deps/libosinfo.bst",
-          "core-deps/libzip.bst",
-          "core-deps/totem-pl-parser.bst",
-          "core-deps/upower.bst",
-          "sdk/gdk-pixbuf.bst",
           "sdk/glib.bst",
-          "sdk/libsecret.bst",
-          "sdk/tinysparql.bst",
-          "freedesktop-sdk.bst:components/gstreamer.bst",
-          "freedesktop-sdk.bst:components/libexif.bst",
-          "freedesktop-sdk.bst:components/libflac.bst",
-          "freedesktop-sdk.bst:components/libseccomp.bst",
-          "freedesktop-sdk.bst:components/libwebp.bst",
-          "freedesktop-sdk.bst:components/openjpeg.bst",
-          "freedesktop-sdk.bst:components/poppler.bst",
+          "sdk/json-glib.bst",
+          "sdk/libsoup.bst",
+          "freedesktop-sdk.bst:components/dbus.bst",
+          "freedesktop-sdk.bst:components/icu.bst",
+          "freedesktop-sdk.bst:components/systemd-libs.bst",
           "freedesktop-sdk.bst:public-stacks/runtime-minimal.bst"
         ],
         "includes": [
