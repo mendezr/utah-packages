@@ -20,8 +20,8 @@
     "long-tail": {
       "already_recipe": 3,
       "manifest_wants": 1,
-      "pending": 85,
-      "total": 89
+      "pending": 84,
+      "total": 88
     },
     "power": {
       "total": 0
@@ -805,11 +805,6 @@
     },
     {
       "area": "long-tail",
-      "name": "kyotocabinet-libs",
-      "state": "pending"
-    },
-    {
-      "area": "long-tail",
       "name": "libell",
       "state": "pending"
     },
@@ -1148,11 +1143,11 @@
   "states": {
     "already_recipe": 13,
     "manifest_wants": 1,
-    "pending": 205
+    "pending": 204
   },
   "totals": {
-    "backlog": 219,
-    "resolved": 296,
+    "backlog": 218,
+    "resolved": 297,
     "wontfix": 36
   }
 }

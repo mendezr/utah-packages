@@ -677,6 +677,12 @@ main but not yet in the published image stay in `[resolved]` without
 publication fields until a run ships them. Partial reconciliation PRs must
 link the tracking issue with `Refs #<issue>`, not a closing keyword.
 
+When rebasing an import over other backlog changes, retain the base branch's
+publication evidence and add only the new recipe's closing record. Regenerate
+`reports/factory-build-backlog.json` with `python3 tools/factory_build_backlog.py`
+after resolving the catalog; neither side's old totals describe the combined
+inventory. Recount the recipe totals in `docs/architecture.md` as well.
+
 Use `parse_primary(primary_from_layer(blob))` from `tools/package_index.py`
 when recording each binary's NEVRA. The rendered site's `packages` entries
 are grouped by source RPM: their version and release come from that source,
@@ -709,6 +715,24 @@ fields. Updating optional publication fields does not change the auditor's
 name-only snapshot; rerun it anyway and expect no report diff when no names
 or recipe classifications changed. Publication still does not prove password
 policy integration, audio-device operation, or a permitted-repository install.
+
+### Kyoto Cabinet library imports
+
+`kyotocabinet-libs` comes from source recipe `kyotocabinet`, which also
+builds the command-line tools, development files and API documentation. The
+recipe enables LZO and LZMA compression; check `lzo`, `xz-libs`, and the zlib
+provider in Hummingbird before importing additional runtime dependencies.
+Hummingbird's `zlib-ng-compat-devel` provides `zlib-devel`; match capabilities,
+not just package names. Keep the upstream `make check` enabled. Dist-git also
+carries an old random-failure suppression patch, but the imported spec does not
+declare it: do not enable it to turn a failing build green.
+
+After a hosted build and permitted-repository installation, exercise persistent
+storage rather than only loading the library: use `kchashmgr create test.kch`,
+`kchashmgr set test.kch key value`, `kchashmgr get test.kch key` (expect
+`value`), then `kchashmgr check test.kch`. These tools come from the main
+`kyotocabinet` binary and link the library subpackage. Record the transaction,
+NEVRAs and command results separately from the recipe closing record.
 
 ### S-Lang library imports
 
