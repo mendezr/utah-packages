@@ -638,6 +638,17 @@ main but not yet in the published image stay in `[resolved]` without
 publication fields until a run ships them. Partial reconciliation PRs must
 link the tracking issue with `Refs #<issue>`, not a closing keyword.
 
+Use `parse_primary(primary_from_layer(blob))` from `tools/package_index.py`
+when recording each binary's NEVRA. The rendered site's `packages` entries
+are grouped by source RPM: their version and release come from that source,
+and their epoch comes from the group's leading binary. Those values are not
+necessarily the identity of every sibling binary. Read each binary's own
+metadata (including epoch and architecture), and retain the image digest and
+primary checksum with the catalog evidence. Fetch by that digest when checking
+the raw metadata so a moving `latest` tag cannot mix two publications.
+Metadata publication is independent of the workflow's aggregate conclusion;
+it does not establish a successful runtime transaction or payload exercise.
+
 ### S-Lang library imports
 
 The `slang` source produces the audited `slang` library and a separate
