@@ -6093,6 +6093,17 @@
       "fallback_urls": [
         "https://src.fedoraproject.org/repo/pkgs/rpms/libdc1394/libdc1394-2.2.7.tar.gz/sha512/0d0b1861612f7c69753af7109ef226ea4e550353222e02663dfaac3fa8f456b94c2dd2579cac840047a42bac97692da436f10be3def1fa29109de05c1e871257/libdc1394-2.2.7.tar.gz"
       ]
+    },
+    {
+      "name": "gst-thumbnailers",
+      "version": "1.1.0",
+      "url": "https://download.gnome.org/sources/gst-thumbnailers/1.1/gst-thumbnailers-1.1.0.tar.xz",
+      "filename": "gst-thumbnailers-1.1.0.tar.xz",
+      "sha512": "6498ba5824c771359b7b18d1a522459c9b899b7f64fcd99575a94d79810aa9122e158130fc5422b77c2439119af5d6767ec27b01a89e892d21143ca7748a2030",
+      "fallback_urls": [
+        "https://src.fedoraproject.org/repo/pkgs/rpms/gst-thumbnailers/gst-thumbnailers-1.1.0.tar.xz/sha512/6498ba5824c771359b7b18d1a522459c9b899b7f64fcd99575a94d79810aa9122e158130fc5422b77c2439119af5d6767ec27b01a89e892d21143ca7748a2030/gst-thumbnailers-1.1.0.tar.xz"
+      ],
+      "stage": 4
     }
   ]
 }

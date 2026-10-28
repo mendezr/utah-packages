@@ -1,0 +1,24 @@
+From c33c45f4d0ee7c454caa4a0a39bcfe697838927b Mon Sep 17 00:00:00 2001
+From: Fabio Valentini <decathorpe@gmail.com>
+Date: Wed, 12 Aug 2026 21:20:57 +0200
+Subject: [PATCH 3/3] Bump libglycin-rebind to 0.2.0-beta for GNOME 51.beta
+
+---
+ Cargo.toml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Cargo.toml b/Cargo.toml
+index 7c66722..28ff714 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -21,6 +21,6 @@ clap = { version = "4.5.51", default-features = false, features = [
+     "help",
+     "usage",
+ ] }
+-gly = { version = "0.1.0", package = "libglycin-rebind" }
++gly = { version = "0.2.0-beta", package = "libglycin-rebind" }
+ image = { version = "0.25.8", default-features = false }
+ 
+-- 
+2.55.0
+

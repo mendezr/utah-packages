@@ -20,6 +20,7 @@ Both are indexed below. A skill that exists but is not listed here fails
 | I need to… | Load |
 | --- | --- |
 | Work out why a rebuild job failed, and whose bug it is | [`.agents/skills/build-failure-triage/SKILL.md`](../.agents/skills/build-failure-triage/SKILL.md) |
+| Bundle Rust application dependencies without crate RPMs | [`skills/rust-vendoring.md`](skills/rust-vendoring.md) |
 | Query Hummingbird's image catalog, tags, CVEs, or SBOMs | [`.agents/skills/hummingbird/SKILL.md`](../.agents/skills/hummingbird/SKILL.md) |
 | Verify buildroot lock or recipe provenance contracts | [`skills/supply-chain-provenance.md`](skills/supply-chain-provenance.md) |
 | Change unit-test coverage instrumentation or its CI floor | [`skills/test-coverage.md`](skills/test-coverage.md) |

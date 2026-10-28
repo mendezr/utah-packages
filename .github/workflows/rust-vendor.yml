@@ -1,0 +1,48 @@
+name: Reproduce Rust vendor sources
+
+on:
+  push:
+    paths:
+      - packages/gst-thumbnailers/**
+      - tools/rust_vendor.py
+      - .github/workflows/rust-vendor.yml
+  workflow_dispatch:
+    inputs:
+      update_lock:
+        description: Resolve a new Cargo.lock for review instead of reproducing the committed lock
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  vendor:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: quay.io/packit/packit:latest@sha256:b72ebfa206f7587e8c456812301e4fd003f3c5b377ce9fe1e533609f214e62a4
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Generate vendor archive twice
+        env:
+          UPDATE_LOCK: ${{ inputs.update_lock || false }}
+        run: |
+          args=()
+          if [ "$UPDATE_LOCK" = true ] || [ ! -f packages/gst-thumbnailers/Cargo.lock ]; then
+            args+=(--update-lock)
+          fi
+          python3 tools/rust_vendor.py gst-thumbnailers /tmp/vendor-first "${args[@]}"
+          if [ -f /tmp/vendor-first/Cargo.lock ]; then
+            cp /tmp/vendor-first/Cargo.lock packages/gst-thumbnailers/Cargo.lock
+          fi
+          python3 tools/rust_vendor.py gst-thumbnailers /tmp/vendor-second
+          cmp /tmp/vendor-first/gst-thumbnailers-1.1.0-vendor.tar.xz /tmp/vendor-second/gst-thumbnailers-1.1.0-vendor.tar.xz
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: gst-thumbnailers-vendor
+          path: /tmp/vendor-first/*
+          if-no-files-found: error

@@ -1,0 +1,9 @@
+{
+  "directory": "gst-thumbnailers-1.1.0",
+  "filename": "gst-thumbnailers-1.1.0-vendor.tar.xz",
+  "patches": [
+    "0001-meson-adapt-for-RPM-package-build-environment.patch",
+    "0002-cargo-drop-benchmarks-and-benchmark-only-dependencie.patch",
+    "0003-Bump-libglycin-rebind-to-0.2.0-beta-for-GNOME-51.bet.patch"
+  ]
+}
