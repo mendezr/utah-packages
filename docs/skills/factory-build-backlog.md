@@ -831,7 +831,7 @@ in `ghcr.io/projectbluefin/utah-packages:latest` and move them from
 Previously resolved GNOME outputs (`gtkmm4.0`, `pangomm2.48`, `gtksourceview5`,
 `libhandy`, `libspelling`) also populate their observed `published_run` and
 `published_nevra` fields. Remaining outputs without recipes or source locks
-(`imath`, `libmediaart`, `rygel`) stay pending in `[areas.gnome-apps]`, and
+(`imath`, `rygel`) stay pending in `[areas.gnome-apps]`, and
 the batch issue remains open with `Refs #484`.
 
 `libwnck3` is the X11 window-list library (GTK 3); Orca `Recommends` it and
@@ -844,6 +844,14 @@ not re-enable them. Its build and runtime dependencies (`gtk3`, `libXres`,
 `startup-notification`) are already factory recipes, so no extra source
 family is needed.
 
+`libmediaart` also emits `libmediaart-devel` from the same recipe. Rawhide
+1.9.7 carries `21.patch` to use Glycin instead of GdkPixbuf; keep that patch,
+`pkgconfig(glycin-2)`, `-Dimage_library=glycin`, and `%meson_test` together.
+The existing `glycin` recipe provides the development files and the runtime
+`glycin-libs` / `glycin-loaders` outputs; no second source import is needed.
+Runtime acceptance must exercise JPEG extraction/cache creation with the
+published Glycin loaders, not just load `libmediaart-2.0.so.0`. A recipe-only
+closing record does not prove sandboxed image decoding or publication.
 
 ### NTFS system compression plugin
 

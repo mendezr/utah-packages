@@ -6148,6 +6148,13 @@
       "sha512": "2731993c89d7386a8bfd4f51131384a2a67c4ee33e54f92a055b685ba4cf74c854fb5aca0c92e3a24d04bf7725e169edf457d1f18a660b5361aabbbcdd550657"
     },
     {
+      "name": "libmediaart",
+      "version": "1.9.7",
+      "url": "https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.7.tar.xz",
+      "filename": "libmediaart-1.9.7.tar.xz",
+      "sha512": "b56de8114b4ffe70c02796829f49dc169a9f8e4d3fee58afcc8681d2341488d2222b2cbc222d6ed961c1a8b552f0a2d3080c427e0ce1ccb8dffb8a1c10820129"
+    },
+    {
       "name": "libwnck3",
       "version": "43.3",
       "url": "https://download.gnome.org/sources/libwnck/43/libwnck-43.3.tar.xz",

@@ -1858,6 +1858,12 @@ packages:
     downstream_package_name: libmd
     paths:
       - packages/libmd
+  libmediaart:
+    specfile_path: libmediaart.spec
+    upstream_package_name: libmediaart
+    downstream_package_name: libmediaart
+    paths:
+      - packages/libmediaart
   libmediainfo:
     specfile_path: libmediainfo.spec
     upstream_package_name: libmediainfo

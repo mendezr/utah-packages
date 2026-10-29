@@ -14,8 +14,8 @@
       "total": 17
     },
     "gnome-apps": {
-      "pending": 4,
-      "total": 4
+      "pending": 3,
+      "total": 3
     },
     "long-tail": {
       "already_recipe": 2,
@@ -600,11 +600,6 @@
     },
     {
       "area": "gnome-apps",
-      "name": "libmediaart",
-      "state": "pending"
-    },
-    {
-      "area": "gnome-apps",
       "name": "rygel",
       "state": "pending"
     },
@@ -1078,11 +1073,11 @@
   "states": {
     "already_recipe": 12,
     "manifest_wants": 1,
-    "pending": 193
+    "pending": 191
   },
   "totals": {
-    "backlog": 206,
-    "resolved": 308,
+    "backlog": 204,
+    "resolved": 310,
     "wontfix": 37
   }
 }
