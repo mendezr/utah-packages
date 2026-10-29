@@ -699,6 +699,24 @@ asset's SHA-512 in both `sources` and the source lock, with no Fedora fallback
 because Fedora's archive has different bytes. Do not generalize this comparison
 to later releases: investigate any future mismatch before changing a pin.
 
+### Broadcom firmware extraction tool
+
+`b43-fwcutter` is the standalone source and binary for extracting firmware;
+`b43-openfwwf` is a separate firmware source, not its subpackage or a required
+runtime dependency. Importing the extraction tool does not supply firmware or
+establish that a wireless adapter works. Keep those acceptance claims separate.
+
+The recipe verifies the release archive with a detached signature and the
+checked-in `757FAB7CED1814AE15B4836E5FB027474203454C.gpg` key. Despite its
+`.gpg` suffix, that file is ASCII-armored. Preserve both `sources` SHA-512
+entries and `%{gpgverify}`; the source pipeline stages the signature from the
+manifest alongside the archive. When verifying manually with `gpgv`, dearmor
+the key into a temporary keyring first. For runtime acceptance, install from
+only Hummingbird plus the factory, run `b43-fwcutter -l`, and extract a supported
+user-supplied firmware image into a disposable directory. Record the input
+identity, extraction result and output files; a version check alone is not
+firmware extraction proof. Do not bundle a proprietary input into the recipe.
+
 ### Shell prompt test dependencies
 
 `bash-color-prompt` enables its Bats tests by default. Import `bats` and

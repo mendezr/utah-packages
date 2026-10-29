@@ -9,6 +9,13 @@
       "sha512": "74d40b4d5b21dcb2b6ed15de84e9ef292774783547d0a36c7185740f3fe34341665b4aa756369d27d158404f15f36f3edd2fd1a8187a196d08c9b06ab3d04101"
     },
     {
+      "name": "b43-fwcutter",
+      "version": "021",
+      "url": "https://bues.ch/b43/fwcutter/b43-fwcutter-021.tar.xz",
+      "filename": "b43-fwcutter-021.tar.xz",
+      "sha512": "2ae2a00a7cdfc5c74cc0cc8d7a4042eae9a0f78b83d8ead77fb2cb55f99095f463b6b2bb0aed3238eeb256e404f1427043f6bca5262b38cd19f0c3237d96a11b"
+    },
+    {
       "name": "ipset",
       "version": "7.24",
       "url": "https://ipset.netfilter.org/ipset-7.24.tar.bz2",

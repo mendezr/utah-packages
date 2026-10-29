@@ -154,6 +154,12 @@ packages:
     downstream_package_name: autofs
     paths:
       - packages/autofs
+  b43-fwcutter:
+    specfile_path: b43-fwcutter.spec
+    upstream_package_name: b43-fwcutter
+    downstream_package_name: b43-fwcutter
+    paths:
+      - packages/b43-fwcutter
   bash-color-prompt:
     specfile_path: bash-color-prompt.spec
     upstream_package_name: bash-color-prompt
