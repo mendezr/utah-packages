@@ -20,8 +20,8 @@
     "long-tail": {
       "already_recipe": 2,
       "manifest_wants": 1,
-      "pending": 79,
-      "total": 82
+      "pending": 78,
+      "total": 81
     },
     "power": {
       "total": 0
@@ -720,11 +720,6 @@
     },
     {
       "area": "long-tail",
-      "name": "initscripts-service",
-      "state": "pending"
-    },
-    {
-      "area": "long-tail",
       "name": "intel-vaapi-driver",
       "state": "pending"
     },
@@ -1103,11 +1098,11 @@
   "states": {
     "already_recipe": 12,
     "manifest_wants": 1,
-    "pending": 199
+    "pending": 196
   },
   "totals": {
-    "backlog": 212,
-    "resolved": 303,
-    "wontfix": 36
+    "backlog": 209,
+    "resolved": 305,
+    "wontfix": 37
   }
 }
