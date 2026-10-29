@@ -157,9 +157,14 @@ request carries the recipe, lock, `.packit.yaml` and counts, but leaves the
 name in its area. Before merging one, add the `[resolved]` entry (with that
 PR's number) and rerun the auditor, or `--check` reports `entries drift` on
 `main`. Two such PRs open at once also conflict on the lock's last entry and
-the `docs/architecture.md` counts: merge `main` into the second, keep both lock
-entries, and regenerate the counts (`tools/render_packit_config.py --write`,
-`tools/render_architecture_counts.py --write`).
+the `docs/architecture.md` counts: rebase the existing PR branch onto `main`,
+keep both lock entries, and regenerate the counts
+(`tools/render_packit_config.py --write`,
+`tools/render_architecture_counts.py --write`) and backlog snapshot
+(`tools/factory_build_backlog.py`) from the combined inventory. Resolve these
+conflicts by regeneration, not by selecting either branch's stale totals.
+Use `git rebase --signoff` to preserve DCO coverage, then push to the same PR
+branch with `--force-with-lease` after validation.
 
 The catalog test (`tests/test_factory_build_backlog.py::CatalogConsistencyTests`)
 pins the count and sorted-name SHA-256 against the original audit. The auditor
