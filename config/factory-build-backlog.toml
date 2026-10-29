@@ -624,7 +624,7 @@ packages = [
     { name = "liblouisutdml", pr = 616 },
     { name = "liblouisutdml-utils", pr = 616 },
     { name = "antiword", pr = 616 },
-    { name = "b43-fwcutter" },
+    { name = "b43-fwcutter", pr = 813 },
     { name = "sane-airscan", pr = 586 },
     { name = "sane-backends", pr = 586 },
     { name = "sane-backends-drivers-cameras", pr = 586 },
