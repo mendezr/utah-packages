@@ -381,9 +381,9 @@ packages = [
     { name = "flex", pr = 654 },
     # VMware guest tools and their CAB library: recipe imports only.
     # Hosted builds, publication and VMware guest validation remain in #488.
-    { name = "open-vm-tools" },
-    { name = "open-vm-tools-desktop" },
-    { name = "libmspack" },
+    { name = "open-vm-tools", pr = 812 },
+    { name = "open-vm-tools-desktop", pr = 812 },
+    { name = "libmspack", pr = 812 },
     # Existing GPU monitor recipe; publication/runtime proof remains in #488.
     { name = "nvtop", commit = "e19a229", pr = 410 },
     # Long-tail batch (projectbluefin/utah-packages#607, part of #500).
