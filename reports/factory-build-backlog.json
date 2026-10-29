@@ -6,8 +6,8 @@
       "total": 29
     },
     "dev-tools": {
-      "pending": 64,
-      "total": 64
+      "pending": 62,
+      "total": 62
     },
     "fonts-i18n": {
       "pending": 17,
@@ -20,8 +20,8 @@
     "long-tail": {
       "already_recipe": 2,
       "manifest_wants": 1,
-      "pending": 79,
-      "total": 82
+      "pending": 78,
+      "total": 81
     },
     "power": {
       "total": 0
@@ -311,16 +311,6 @@
     {
       "area": "dev-tools",
       "name": "lsb_release",
-      "state": "pending"
-    },
-    {
-      "area": "dev-tools",
-      "name": "open-vm-tools",
-      "state": "pending"
-    },
-    {
-      "area": "dev-tools",
-      "name": "open-vm-tools-desktop",
       "state": "pending"
     },
     {
@@ -785,11 +775,6 @@
     },
     {
       "area": "long-tail",
-      "name": "libmspack",
-      "state": "pending"
-    },
-    {
-      "area": "long-tail",
       "name": "libnet",
       "state": "pending"
     },
@@ -1103,11 +1088,11 @@
   "states": {
     "already_recipe": 12,
     "manifest_wants": 1,
-    "pending": 199
+    "pending": 194
   },
   "totals": {
-    "backlog": 212,
-    "resolved": 303,
+    "backlog": 207,
+    "resolved": 308,
     "wontfix": 36
   }
 }
