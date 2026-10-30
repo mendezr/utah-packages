@@ -103,7 +103,6 @@ packages = [
 # projectbluefin/utah#392 - 147 names
 consumer_issue = "projectbluefin/utah#392"
 packages = [
-    "bcache-tools",
     "cryfs",
     "distribution-gpg-keys",
     "fedora-release-common",
@@ -318,6 +317,8 @@ packages = [
     { name = "libmediaart", pr = 816 },
     # NTFS-3G read-only plugin recipe for #488; hosted build, publication and runtime proof remain open.
     { name = "ntfs-3g-system-compression", pr = 771 },
+    # Recipe import only; hosted build, publication and device validation remain on #485.
+    { name = "bcache-tools" },
     # Recipe import only; build, publication and runtime proof remain on #485.
     { name = "adcli", pr = 774 },
     { name = "adcli-selinux", pr = 774 },

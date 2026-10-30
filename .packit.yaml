@@ -178,6 +178,12 @@ packages:
     downstream_package_name: bc
     paths:
       - packages/bc
+  bcache-tools:
+    specfile_path: bcache-tools.spec
+    upstream_package_name: bcache-tools
+    downstream_package_name: bcache-tools
+    paths:
+      - packages/bcache-tools
   bison:
     specfile_path: bison.spec
     upstream_package_name: bison

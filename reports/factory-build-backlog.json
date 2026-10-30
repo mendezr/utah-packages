@@ -6,8 +6,8 @@
       "total": 21
     },
     "dev-tools": {
-      "pending": 57,
-      "total": 57
+      "pending": 56,
+      "total": 56
     },
     "fonts-i18n": {
       "pending": 15,
@@ -151,11 +151,6 @@
     {
       "area": "codecs-media",
       "name": "xavs2-libs",
-      "state": "pending"
-    },
-    {
-      "area": "dev-tools",
-      "name": "bcache-tools",
       "state": "pending"
     },
     {
@@ -938,11 +933,11 @@
   "states": {
     "already_recipe": 7,
     "manifest_wants": 1,
-    "pending": 169
+    "pending": 168
   },
   "totals": {
-    "backlog": 177,
-    "resolved": 337,
+    "backlog": 176,
+    "resolved": 338,
     "wontfix": 37
   }
 }

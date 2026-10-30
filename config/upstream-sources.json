@@ -2,6 +2,13 @@
   "schema": 1,
   "packages": [
     {
+      "name": "bcache-tools",
+      "version": "1.1",
+      "url": "https://git.kernel.org/pub/scm/linux/kernel/git/colyli/bcache-tools.git/snapshot/bcache-tools-1.1.tar.gz",
+      "filename": "bcache-tools-1.1.tar.gz",
+      "sha512": "4ccbef47255bf3644a50242a79951b1f3720e71a55eb1e07dc6b8486df0245da99a77bba751b50197d489b4c5d738e5284aabc014c2f7f44816ddf6a1bb807ca"
+    },
+    {
       "name": "jbig2dec",
       "version": "0.20",
       "url": "https://github.com/ArtifexSoftware/jbig2dec/releases/download/0.20/jbig2dec-0.20.tar.gz",

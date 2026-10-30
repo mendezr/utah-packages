@@ -553,6 +553,23 @@ Two other names in the same batch have no straightforward import. Fedora
 retired `fuse-encfs` in Rawhide (`dead.package`), and the `hfsplus-tools`
 `Source0` host returns 404 while dist-git still pins an MD5 `sources` entry.
 Each needs its own source decision rather than a Rawhide import.
+### Block-cache tools and safe validation
+
+`bcache-tools` is one source family, including the `bcache-status` Python
+helper. Fedora's `Source0` is a bare filename, but the upstream kernel.org
+`colyli/bcache-tools.git/snapshot/bcache-tools-1.1.tar.gz` archive matches
+its SHA-512 manifest exactly; use that direct upstream URL rather than a
+Fedora-primary lock. The supplementary `bcache-status-20140220.tar.gz` is a
+packager-created gist snapshot staged by `source_pipeline.bundled_sources`;
+retain its separate manifest pin and the imported Python 3 patches.
+
+The explicit runtime `libblkid >= 2.24` and generated library/Python
+requirements need checking against Hummingbird plus the factory after a hosted
+build. A catalog import is not a working disk cache. Do not run `make-bcache`
+on host disks: payload validation must use disposable virtual disks and record
+their identities. Kernel support and a successful cache exercise remain consumer
+acceptance requirements; importing these userspace tools changes no kernel policy.
+
 ### WebDAV filesystem runtime closure
 
 `davfs2` uses the `neon` HTTP/WebDAV library; its default build in turn links
