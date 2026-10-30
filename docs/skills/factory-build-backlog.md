@@ -665,9 +665,16 @@ extensions; link that decision in its `[wontfix]` record.
 
 `published_run` / `published_nevra` are optional and also informational (the
 tool reads only `name`); set them from the publication run's repodata when
-reconciling a published batch. Record any known newer failed rebuilds by package
-name and run in the catalog comments so publication evidence does not hide
-current build health.
+reconciling a published batch. The image's run label identifies its publisher,
+not necessarily the run that built each retained RPM. A registry digest can
+already be readable while that run is still in progress; report the observed
+publication without calling the workflow successful. For example, the #486
+reconciliation observes eight binaries in one image, but that does not prove
+eight fresh builds or successful device/service tests. Preserve the original
+recipe-import `pr` fields when adding this evidence, and leave the auditor
+snapshot unchanged when regeneration produces no diff. Record any known newer
+failed rebuilds by package name and run in the catalog comments so publication
+evidence does not hide current build health.
 
 Read both from one image: `python3 tools/package_index.py --image
 projectbluefin/utah-packages:latest --output <file>` writes the manifest
