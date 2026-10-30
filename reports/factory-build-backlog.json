@@ -20,8 +20,8 @@
     "long-tail": {
       "already_recipe": 2,
       "manifest_wants": 1,
-      "pending": 74,
-      "total": 77
+      "pending": 73,
+      "total": 76
     },
     "power": {
       "total": 0
@@ -555,11 +555,6 @@
     },
     {
       "area": "long-tail",
-      "name": "b43-fwcutter",
-      "state": "pending"
-    },
-    {
-      "area": "long-tail",
       "name": "b43-openfwwf",
       "state": "pending"
     },
@@ -978,11 +973,11 @@
   "states": {
     "already_recipe": 7,
     "manifest_wants": 1,
-    "pending": 177
+    "pending": 176
   },
   "totals": {
-    "backlog": 185,
-    "resolved": 329,
+    "backlog": 184,
+    "resolved": 330,
     "wontfix": 37
   }
 }
