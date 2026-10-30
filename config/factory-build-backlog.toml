@@ -323,7 +323,7 @@ packages = [
     { name = "serd", pr = 773 },
     # Recipe coverage only; slirp4netns uses the existing libslirp recipe.
     # Hosted build, publication, runtime solver and namespace tests remain on #507.
-    { name = "slirp4netns" },
+    { name = "slirp4netns", pr = 830 },
     # Language data recipe; build/publication and consumer proof remain tracked in #494.
     { name = "langtable", pr = 700 },
     { name = "python3-langtable", pr = 700 },
